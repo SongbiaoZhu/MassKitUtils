@@ -1,0 +1,17 @@
+MSCRUtils               MSCRUtils: Utility Functions for R Development
+                        and Data Export
+add_summary_sheet       Add summary sheet to Excel workbook
+apply_header_style      Apply header style to Excel worksheet
+apply_table_style       Apply table style to Excel worksheet
+check_package_versions
+                        Check package versions
+create_ignore_files     Create Standard Ignore Files
+create_r_project        Create a new R project with standard structure
+ensure_directory        Ensure directory exists, create if it doesn't
+export_to_excel         Export data to Excel file with formatting
+                        options
+generate_dev_standards
+                        Generate R Package Development Standards
+                        Documentation
+install_if_missing      Install packages if they are missing
+load_packages           Load packages with error handling

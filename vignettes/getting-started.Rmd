@@ -1,0 +1,431 @@
+---
+title: "Getting Started with MSCRUtils"
+author: "Songbiao Zhu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with MSCRUtils}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+MSCRUtils is a comprehensive utility package for R development workflows, providing functions for package management, project creation, file operations, and data export. This package is designed to streamline common R development tasks and improve productivity.
+
+### Key Features
+
+- **Package Management**: Automatically install and load packages with error handling
+- **Project Management**: Create standardized R project structures
+- **File Management**: Ensure directories exist with intelligent path handling
+- **Data Export**: Export data to Excel with professional formatting
+- **Development Tools**: Generate development standards and project templates
+
+## Installation
+
+```{r eval=FALSE}
+# Install from GitHub (if available)
+devtools::install_github("SongbiaoZhu/MSCRUtils")
+
+# Or install locally
+devtools::install("path/to/MSCRUtils")
+```
+
+## Package Management
+
+### Installing Missing Packages
+
+The `install_if_missing()` function automatically checks which packages are installed and only installs the missing ones. It supports packages from multiple sources:
+
+#### CRAN Packages
+```{r}
+library(MSCRUtils)
+
+# Install CRAN packages if they are missing
+install_if_missing(c("dplyr", "ggplot2", "readr"))
+```
+
+#### Bioconductor Packages
+```{r}
+# Install Bioconductor packages
+install_if_missing(c("Biobase", "limma"), bioc = TRUE)
+```
+
+#### GitHub Packages
+```{r}
+# Install GitHub packages (requires devtools)
+install_if_missing(github_packages = c("rmarkdown" = "rstudio/rmarkdown"))
+```
+
+#### Mixed Installation
+```{r}
+# Install packages from different sources in one call
+install_if_missing(
+  packages = c("dplyr", "ggplot2"),
+  bioc = TRUE,
+  github_packages = c("rmarkdown" = "rstudio/rmarkdown")
+)
+```
+
+### Multi-Source Package Installation
+
+For more complex scenarios, use `install_from_sources()` to install packages from different sources in a structured way:
+
+```{r}
+# Install packages from multiple sources
+install_from_sources(
+  cran_packages = c("dplyr", "ggplot2", "readr"),
+  bioc_packages = c("Biobase", "limma"),
+  github_packages = c("rmarkdown" = "rstudio/rmarkdown")
+)
+```
+
+This function automatically handles the installation of required tools (BiocManager for Bioconductor, devtools for GitHub) as needed.
+
+### How Different Sources Are Handled
+
+1. **CRAN Packages**: Uses `install.packages()` with the specified repository
+2. **Bioconductor Packages**: Automatically installs BiocManager if needed, then uses `BiocManager::install()`
+3. **GitHub Packages**: Automatically installs devtools if needed, then uses `devtools::install_github()`
+
+These functions are particularly useful in scripts that need to ensure all dependencies are available before running.
+
+### Loading Packages with Error Handling
+
+The `load_packages()` function loads multiple packages and returns a status vector:
+
+```{r}
+# Load packages and get status
+load_status <- load_packages(c("dplyr", "ggplot2"), quiet = TRUE)
+print(load_status)
+```
+
+This is useful for checking which packages failed to load and handling errors gracefully.
+
+### Checking Package Versions
+
+The `check_package_versions()` function provides detailed information about installed packages:
+
+```{r}
+# Check installed versions
+versions <- check_package_versions(c("dplyr", "ggplot2"))
+print(versions)
+```
+
+You can also specify required versions for comparison:
+
+```{r}
+# Check against required versions
+required_versions <- c("dplyr" = "1.0.0", "ggplot2" = "3.3.0")
+versions <- check_package_versions(c("dplyr", "ggplot2"), required_versions)
+print(versions)
+```
+
+## Project Management
+
+### Creating New R Projects
+
+The `create_r_project()` function creates a standardized R project structure:
+
+```{r eval=FALSE}
+# Create a new project with standard structure
+create_r_project("my_analysis_project")
+```
+
+This creates a project with the following structure:
+- `R/`: R scripts and functions
+- `data/`: Raw and processed data
+- `docs/`: Documentation
+- `tests/`: Unit tests
+- `vignettes/`: Long-form documentation
+- `inst/`: Package installation files
+- `output/`: Output files
+- `README.md`: Project documentation
+- `.gitignore`: Git ignore file
+- `DESCRIPTION`: Package description
+- `NAMESPACE`: Package namespace
+
+### Project Setup Options
+
+You can customize the project creation:
+
+```{r eval=FALSE}
+# Create project with environment setup
+create_r_project("my_project", setup_env = TRUE)
+
+# Create project in specific directory
+create_r_project("my_project", path = "/path/to/projects")
+```
+
+## File Management
+
+### Ensuring Directories Exist
+
+The `ensure_directory()` function creates directories if they don't exist:
+
+```{r}
+# Create single directory
+ensure_directory("output/figures/2024")
+
+# Create nested directory structure
+ensure_directory("data/raw/2024/quarter1")
+```
+
+This function is particularly useful in scripts where you need to ensure output directories exist before writing files.
+
+### Advanced Directory Operations
+
+The function handles various edge cases:
+
+```{r}
+# Handle special characters in paths
+ensure_directory("output/figures/2024-Q1")
+
+# Handle existing directories (no error)
+ensure_directory("output/figures/2024")
+```
+
+## Data Export
+
+### Basic Excel Export
+
+The `export_to_excel()` function provides a simple way to export data frames to Excel:
+
+```{r}
+# Create sample data
+sample_data <- data.frame(
+  x = 1:5,
+  y = letters[1:5],
+  z = rnorm(5)
+)
+
+# Export to Excel
+export_to_excel(sample_data, "sample_output.xlsx")
+```
+
+### Styled Excel Export
+
+You can customize the appearance of your Excel files:
+
+```{r}
+# Export with custom styling
+export_to_excel(sample_data, "styled_output.xlsx",
+               header_style = "colored",
+               table_style = "striped",
+               add_summary = TRUE)
+```
+
+### Advanced Formatting Options
+
+```{r}
+# Custom colors and formatting
+export_to_excel(sample_data, "custom_output.xlsx",
+               header_style = "colored",
+               header_bg_color = "#4472C4",
+               header_font_color = "#FFFFFF",
+               border_color = "#000000",
+               font_size = 12)
+```
+
+## Development Tools
+
+### Generating Development Standards
+
+The `generate_dev_standards()` function creates comprehensive development documentation:
+
+```{r eval=FALSE}
+# Generate development standards
+generate_dev_standards("dev/")
+
+# Generate with custom package name
+generate_dev_standards("dev/", package_name = "MyPackage")
+```
+
+This creates:
+- Coding standards documentation
+- Testing guidelines
+- Documentation standards
+- Git workflow guidelines
+- Release checklist
+- Code templates
+
+### Creating Ignore Files
+
+The `create_ignore_files()` function creates standard ignore files for R projects:
+
+```{r eval=FALSE}
+# Create .gitignore and .Rbuildignore
+create_ignore_files()
+```
+
+## Complete Workflow Example
+
+Here's a complete example showing how to use MSCRUtils in a typical analysis workflow:
+
+```{r eval=FALSE}
+library(MSCRUtils)
+
+# 1. Install and load required packages
+install_if_missing(c("dplyr", "ggplot2", "readr"))
+load_packages(c("dplyr", "ggplot2", "readr"))
+
+# 2. Create project structure
+create_r_project("my_analysis")
+
+# 3. Ensure output directories exist
+ensure_directory("output/figures")
+ensure_directory("output/tables")
+
+# 4. Perform analysis
+# ... your analysis code here ...
+
+# 5. Export results to Excel
+export_to_excel(results, "output/tables/analysis_results.xlsx",
+               header_style = "colored",
+               table_style = "striped",
+               add_summary = TRUE)
+
+# 6. Generate development documentation
+generate_dev_standards("dev/", package_name = "my_analysis")
+```
+
+## Real-World Examples
+
+### Example 1: Data Analysis Project
+
+```{r eval=FALSE}
+library(MSCRUtils)
+
+# Setup project
+create_r_project("customer_analysis")
+ensure_directory("data/raw")
+ensure_directory("data/processed")
+ensure_directory("output/reports")
+
+# Install and load packages
+install_if_missing(c("dplyr", "ggplot2", "readr", "tidyr"))
+load_packages(c("dplyr", "ggplot2", "readr", "tidyr"))
+
+# Load and process data
+customer_data <- read_csv("data/raw/customers.csv")
+processed_data <- customer_data %>%
+  filter(!is.na(age)) %>%
+  mutate(age_group = cut(age, breaks = c(0, 25, 35, 50, 100)))
+
+# Export results
+export_to_excel(processed_data, "output/reports/customer_analysis.xlsx",
+               header_style = "colored",
+               table_style = "striped",
+               add_summary = TRUE)
+```
+
+### Example 2: Research Project
+
+```{r eval=FALSE}
+library(MSCRUtils)
+
+# Setup research project
+create_r_project("research_study_2024")
+ensure_directory("data/experiments")
+ensure_directory("output/figures")
+ensure_directory("output/tables")
+
+# Install research packages
+install_if_missing(c("lme4", "car", "emmeans", "ggplot2"))
+load_packages(c("lme4", "car", "emmeans", "ggplot2"))
+
+# Analysis and export
+# ... statistical analysis code ...
+
+# Export results with professional formatting
+export_to_excel(results_table, "output/tables/statistical_results.xlsx",
+               header_style = "colored",
+               table_style = "bordered",
+               add_summary = TRUE)
+```
+
+## Available Styles
+
+### Header Styles
+- `"default"`: Gray background, centered, bold
+- `"bold"`: Bold text only
+- `"colored"`: Blue background, white text, centered
+- `"minimal"`: Bold text only
+
+### Table Styles
+- `"default"`: Top and bottom borders
+- `"bordered"`: Full borders on all cells
+- `"striped"`: Alternating row colors
+- `"minimal"`: No borders
+
+## Best Practices
+
+### 1. Package Management
+- Always use `install_if_missing()` in scripts to ensure dependencies
+- Use `load_packages()` with `quiet = TRUE` for clean output
+- Check package versions before running critical analyses
+
+### 2. Project Structure
+- Use `create_r_project()` for all new projects
+- Keep consistent directory structure across projects
+- Use `ensure_directory()` before writing files
+
+### 3. Data Export
+- Use appropriate styles for different audiences
+- Include summaries for complex datasets
+- Use consistent naming conventions for output files
+
+### 4. Development Workflow
+- Generate development standards for team projects
+- Use ignore files to keep repositories clean
+- Document your workflow and standards
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Package Installation Fails**
+   - Check internet connection
+   - Verify CRAN repository settings
+   - Try installing packages individually
+
+2. **Directory Creation Fails**
+   - Check file permissions
+   - Verify path syntax for your operating system
+   - Ensure parent directories exist
+
+3. **Excel Export Issues**
+   - Ensure `openxlsx` package is installed
+   - Check file permissions in output directory
+   - Verify data frame structure
+
+### Getting Help
+
+For more information about specific functions, use the help system:
+
+```{r eval=FALSE}
+?export_to_excel
+?install_if_missing
+?create_r_project
+?ensure_directory
+?generate_dev_standards
+```
+
+You can also check the package documentation:
+
+```{r eval=FALSE}
+browseVignettes("MSCRUtils")
+```
+
+## Conclusion
+
+MSCRUtils provides a comprehensive set of tools to streamline R development workflows. By following the examples and best practices outlined in this vignette, you can improve your productivity and maintain consistent project structures across your R projects.
+
+For more advanced usage and customization options, refer to the individual function documentation and examples. 

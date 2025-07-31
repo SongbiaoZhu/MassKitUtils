@@ -1,0 +1,25 @@
+Package: MSCRUtils
+Title: R Development and Data Export Utilities
+Version: 1.0.0
+Authors@R: 
+    person("Songbiao", "Zhu", , "zhusongbiao@cimrbj.ac.cn", role = c("aut", "cre"))
+Author: Songbiao Zhu [aut, cre]
+Maintainer: Songbiao Zhu <zhusongbiao@cimrbj.ac.cn>
+Description: A comprehensive utility package for R development workflows.
+    Provides functions for package management, project creation, file operations, and data export.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    dplyr,
+    tibble,
+    openxlsx
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    devtools,
+    usethis,
+    BiocManager
+Config/testthat/edition: 3
