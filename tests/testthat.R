@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(MSCRUtils)
+library(MassKitUtils)
 
-test_check("MSCRUtils") 
+test_check("MassKitUtils") 

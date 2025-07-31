@@ -1,9 +1,9 @@
 # 多源包安装演示脚本
 # examples/demo_multi_source_packages.R
 
-library(MSCRUtils)
+library(MassKitUtils)
 
-cat("=== MSCRUtils 多源包安装演示 ===\n\n")
+cat("=== MassKitUtils 多源包安装演示 ===\n\n")
 
 # 1. CRAN包安装演示
 cat("1. CRAN包安装演示\n")

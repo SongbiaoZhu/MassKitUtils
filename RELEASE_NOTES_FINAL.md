@@ -1,8 +1,8 @@
-# MSCRUtils 1.0.0 - 初始发布
+# MassKitUtils 1.0.0 - 初始发布
 
 ## 🎉 首次发布
 
-MSCRUtils 是一个综合性的R开发工具包，提供包管理、项目创建、文件操作和数据导出等功能。
+MassKitUtils 是一个综合性的R开发工具包，提供包管理、项目创建、文件操作和数据导出等功能。
 
 ## ✨ 主要功能
 
@@ -60,13 +60,13 @@ install_from_sources(
 ```r
 # 从GitHub安装
 if (!require(devtools)) install.packages("devtools")
-devtools::install_github("SongbiaoZhu/MSCRUtils")
+devtools::install_github("SongbiaoZhu/MassKitUtils")
 ```
 
 ## 🚀 快速开始
 
 ```r
-library(MSCRUtils)
+library(MassKitUtils)
 
 # 创建新项目
 create_r_project("my_analysis")
@@ -96,7 +96,7 @@ export_to_excel(mtcars, "output/results.xlsx")
 
 详细使用说明请参考包内vignette:
 ```r
-vignette("getting-started", package = "MSCRUtils")
+vignette("getting-started", package = "MassKitUtils")
 ```
 
 ## 🤝 贡献

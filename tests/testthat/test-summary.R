@@ -7,7 +7,7 @@ test_that("测试覆盖总结", {
   # 检查所有主要功能模块
   expect_true(TRUE) # 占位符测试
   
-  cat("\n=== MSCRUtils 测试覆盖总结 ===\n")
+  cat("\n=== MassKitUtils 测试覆盖总结 ===\n")
   cat("✓ 包管理功能测试: install_if_missing, load_packages, check_package_versions\n")
   cat("✓ 项目管理功能测试: create_r_project\n")
   cat("✓ 文件管理功能测试: ensure_directory\n")

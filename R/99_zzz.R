@@ -3,24 +3,24 @@
 
 .onLoad <- function(libname, pkgname) {
   # Set package options
-  options(MSCRUtils.verbose = TRUE)
-  options(MSCRUtils.debug = FALSE)
+  options(MassKitUtils.verbose = TRUE)
+  options(MassKitUtils.debug = FALSE)
   
   # Set default styles for Excel export
-  options(MSCRUtils.default_header_style = "default")
-  options(MSCRUtils.default_table_style = "default")
-  options(MSCRUtils.default_font_size = 11)
+  options(MassKitUtils.default_header_style = "default")
+  options(MassKitUtils.default_table_style = "default")
+  options(MassKitUtils.default_font_size = 11)
   
   invisible(NULL)
 }
 
 .onUnload <- function(libpath) {
   # Clean up package options
-  options(MSCRUtils.verbose = NULL)
-  options(MSCRUtils.debug = NULL)
-  options(MSCRUtils.default_header_style = NULL)
-  options(MSCRUtils.default_table_style = NULL)
-  options(MSCRUtils.default_font_size = NULL)
+  options(MassKitUtils.verbose = NULL)
+  options(MassKitUtils.debug = NULL)
+  options(MassKitUtils.default_header_style = NULL)
+  options(MassKitUtils.default_table_style = NULL)
+  options(MassKitUtils.default_font_size = NULL)
   
   invisible(NULL)
 } 

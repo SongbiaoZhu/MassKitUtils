@@ -1,7 +1,7 @@
 # 发布验证脚本
 # scripts/verify_release.R
 
-cat("=== MSCRUtils 1.0.0 发布验证 ===\n\n")
+cat("=== MassKitUtils 1.0.0 发布验证 ===\n\n")
 
 # 1. 检查系统日期
 cat("1. 系统日期检查...\n")
@@ -11,9 +11,9 @@ cat("✓ 年份: ", format(current_date, "%Y"), "\n\n")
 
 # 2. 检查包文件
 cat("2. 包文件检查...\n")
-if (file.exists("../MSCRUtils_1.0.0.tar.gz")) {
-  file_size <- file.size("../MSCRUtils_1.0.0.tar.gz")
-  cat("✓ 构建包存在: MSCRUtils_1.0.0.tar.gz (", file_size, " bytes)\n")
+if (file.exists("../MassKitUtils_1.0.0.tar.gz")) {
+  file_size <- file.size("../MassKitUtils_1.0.0.tar.gz")
+  cat("✓ 构建包存在: MassKitUtils_1.0.0.tar.gz (", file_size, " bytes)\n")
 } else {
   cat("✗ 构建包不存在\n")
 }
@@ -81,10 +81,10 @@ cat("✓ 日期已修正为2025年\n")
 cat("✓ 包构建完成\n")
 cat("✓ 文档完整\n\n")
 
-cat("🎉 MSCRUtils 1.0.0 发布验证通过！\n")
+cat("🎉 MassKitUtils 1.0.0 发布验证通过！\n")
 cat("📅 发布日期: ", as.character(current_date), "\n")
-cat("📦 包大小: ", ifelse(file.exists("../MSCRUtils_1.0.0.tar.gz"), 
-                        paste(file.size("../MSCRUtils_1.0.0.tar.gz"), "bytes"), "未知"), "\n")
+cat("📦 包大小: ", ifelse(file.exists("../MassKitUtils_1.0.0.tar.gz"),
+paste(file.size("../MassKitUtils_1.0.0.tar.gz"), "bytes"), "未知"), "\n")
 cat("🏷️ 版本: 1.0.0\n\n")
 
 cat("下一步: 准备发布到GitHub！\n") 

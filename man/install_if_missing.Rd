@@ -5,10 +5,12 @@
 \title{Install packages if they are missing}
 \usage{
 install_if_missing(
-  packages,
+  packages = NULL,
   repos = getOption("repos"),
   dependencies = TRUE,
-  quiet = FALSE
+  quiet = FALSE,
+  bioc = FALSE,
+  github_packages = NULL
 )
 }
 \arguments{
@@ -19,21 +21,39 @@ install_if_missing(
 \item{dependencies}{Logical, whether to install dependencies (default: TRUE)}
 
 \item{quiet}{Logical, whether to suppress output (default: FALSE)}
+
+\item{bioc}{Logical, whether to use Bioconductor (default: FALSE)}
+
+\item{github_packages}{Named character vector for GitHub packages (format: c("package_name" = "username/repo"))}
 }
 \value{
 Invisible NULL
 }
 \description{
 This function checks if specified packages are installed and installs
-them automatically if they are missing. It provides a convenient way
-to ensure all required packages are available.
+them automatically if they are missing. It supports packages from
+CRAN, Bioconductor, and GitHub repositories.
 }
 \examples{
 \dontrun{
-# Install packages if missing
+# Install CRAN packages if missing
 install_if_missing(c("dplyr", "ggplot2"))
 
 # Install with custom repository
 install_if_missing("devtools", repos = "https://cran.rstudio.com/")
+
+# Install Bioconductor packages
+install_if_missing(c("Biobase", "limma"), bioc = TRUE)
+
+# Install GitHub packages
+install_if_missing("devtools")  # First install devtools
+install_if_missing(github_packages = c("tidyverse" = "tidyverse/tidyverse"))
+
+# Mixed installation
+install_if_missing(
+  packages = c("dplyr", "ggplot2"),
+  bioc = TRUE,
+  github_packages = c("rmarkdown" = "rstudio/rmarkdown")
+)
 }
 }

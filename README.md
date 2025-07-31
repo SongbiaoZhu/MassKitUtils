@@ -1,10 +1,10 @@
-# MSCRUtils
+# MassKitUtils
 
 ![R](https://img.shields.io/badge/R-%3E%3D%203.5.0-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Version](https://img.shields.io/badge/Version-1.0.0-orange.svg)
 
-MSCRUtils 是一个综合性的R开发工具包，提供包管理、项目创建、文件操作和数据导出等功能，旨在简化R开发工作流程并提高生产力。
+MassKitUtils 是一个综合性的R开发工具包，提供包管理、项目创建、文件操作和数据导出等功能，旨在简化R开发工作流程并提高生产力。
 
 ## ✨ 主要功能
 
@@ -40,13 +40,13 @@ MSCRUtils 是一个综合性的R开发工具包，提供包管理、项目创建
 ```r
 # 从GitHub安装
 if (!require(devtools)) install.packages("devtools")
-devtools::install_github("SongbiaoZhu/MSCRUtils")
+devtools::install_github("SongbiaoZhu/MassKitUtils")
 ```
 
 ### 基本使用
 
 ```r
-library(MSCRUtils)
+library(MassKitUtils)
 
 # 创建新项目
 create_r_project("my_analysis")
@@ -98,4 +98,4 @@ generate_dev_standards("dev/")
 
 ---
 
-**MSCRUtils** - 让R开发更简单、更高效！ 🎉
+**MassKitUtils** - 让R开发更简单、更高效！ 🎉

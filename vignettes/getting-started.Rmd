@@ -1,10 +1,10 @@
 ---
-title: "Getting Started with MSCRUtils"
+title: "Getting Started with MassKitUtils"
 author: "Songbiao Zhu"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with MSCRUtils}
+  %\VignetteIndexEntry{Getting Started with MassKitUtils}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-MSCRUtils is a comprehensive utility package for R development workflows, providing functions for package management, project creation, file operations, and data export. This package is designed to streamline common R development tasks and improve productivity.
+MassKitUtils is a comprehensive utility package for R development workflows, providing functions for package management, project creation, file operations, and data export. This package is designed to streamline common R development tasks and improve productivity.
 
 ### Key Features
 
@@ -32,10 +32,10 @@ MSCRUtils is a comprehensive utility package for R development workflows, provid
 
 ```{r eval=FALSE}
 # Install from GitHub (if available)
-devtools::install_github("SongbiaoZhu/MSCRUtils")
+devtools::install_github("SongbiaoZhu/MassKitUtils")
 
 # Or install locally
-devtools::install("path/to/MSCRUtils")
+devtools::install("path/to/MassKitUtils")
 ```
 
 ## Package Management
@@ -46,7 +46,7 @@ The `install_if_missing()` function automatically checks which packages are inst
 
 #### CRAN Packages
 ```{r}
-library(MSCRUtils)
+library(MassKitUtils)
 
 # Install CRAN packages if they are missing
 install_if_missing(c("dplyr", "ggplot2", "readr"))
@@ -267,10 +267,10 @@ create_ignore_files()
 
 ## Complete Workflow Example
 
-Here's a complete example showing how to use MSCRUtils in a typical analysis workflow:
+Here's a complete example showing how to use MassKitUtils in a typical analysis workflow:
 
 ```{r eval=FALSE}
-library(MSCRUtils)
+library(MassKitUtils)
 
 # 1. Install and load required packages
 install_if_missing(c("dplyr", "ggplot2", "readr"))
@@ -301,7 +301,7 @@ generate_dev_standards("dev/", package_name = "my_analysis")
 ### Example 1: Data Analysis Project
 
 ```{r eval=FALSE}
-library(MSCRUtils)
+library(MassKitUtils)
 
 # Setup project
 create_r_project("customer_analysis")
@@ -329,7 +329,7 @@ export_to_excel(processed_data, "output/reports/customer_analysis.xlsx",
 ### Example 2: Research Project
 
 ```{r eval=FALSE}
-library(MSCRUtils)
+library(MassKitUtils)
 
 # Setup research project
 create_r_project("research_study_2024")
@@ -421,11 +421,11 @@ For more information about specific functions, use the help system:
 You can also check the package documentation:
 
 ```{r eval=FALSE}
-browseVignettes("MSCRUtils")
+browseVignettes("MassKitUtils")
 ```
 
 ## Conclusion
 
-MSCRUtils provides a comprehensive set of tools to streamline R development workflows. By following the examples and best practices outlined in this vignette, you can improve your productivity and maintain consistent project structures across your R projects.
+MassKitUtils provides a comprehensive set of tools to streamline R development workflows. By following the examples and best practices outlined in this vignette, you can improve your productivity and maintain consistent project structures across your R projects.
 
 For more advanced usage and customization options, refer to the individual function documentation and examples. 

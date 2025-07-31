@@ -1,9 +1,9 @@
-# MSCRUtils 1.0.0 GitHub发布清单
+# MassKitUtils 1.0.0 GitHub发布清单
 
 ## 📋 发布前检查
 
 ### ✅ 文件准备
-- [x] MSCRUtils_1.0.0.tar.gz (构建包)
+- [x] MassKitUtils_1.0.0.tar.gz (构建包)
 - [x] README.md (项目说明)
 - [x] LICENSE.md (许可证)
 - [x] DESCRIPTION (包元数据)
@@ -24,7 +24,7 @@
 ## 🚀 GitHub发布步骤
 
 ### 1. 创建仓库
-- [ ] 在GitHub创建新仓库: MSCRUtils
+- [ ] 在GitHub创建新仓库: MassKitUtils
 - [ ] 设置仓库描述: "A comprehensive utility package for R development workflows"
 - [ ] 选择MIT许可证
 - [ ] 添加README.md
@@ -37,7 +37,7 @@
 
 ### 3. 创建Release
 - [ ] 创建标签: v1.0.0
-- [ ] 上传MSCRUtils_1.0.0.tar.gz
+- [ ] 上传MassKitUtils_1.0.0.tar.gz
 - [ ] 添加发布说明（RELEASE_NOTES_FINAL.md内容）
 - [ ] 发布Release
 
@@ -49,15 +49,15 @@
 ## 📊 发布信息
 
 ### 仓库信息
-- **仓库名**: MSCRUtils
-- **GitHub地址**: https://github.com/SongbiaoZhu/MSCRUtils
+- **仓库名**: MassKitUtils
+- **GitHub地址**: https://github.com/SongbiaoZhu/MassKitUtils
 - **维护者**: Songbiao Zhu
 - **邮箱**: zhusongbiao@cimrbj.ac.cn
 
 ### 安装命令
 ```r
 if (!require(devtools)) install.packages("devtools")
-devtools::install_github("SongbiaoZhu/MSCRUtils")
+devtools::install_github("SongbiaoZhu/MassKitUtils")
 ```
 
 ### 版本信息
@@ -82,7 +82,7 @@ devtools::install_github("SongbiaoZhu/MSCRUtils")
 
 ## 📞 联系方式
 
-- **GitHub Issues**: https://github.com/SongbiaoZhu/MSCRUtils/issues
+- **GitHub Issues**: https://github.com/SongbiaoZhu/MassKitUtils/issues
 - **邮箱**: zhusongbiao@cimrbj.ac.cn
 - **个人网站**: https://songbiaozhu.github.io/
 

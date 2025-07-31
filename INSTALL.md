@@ -1,4 +1,4 @@
-# MSCRUtils 安装说明
+# MassKitUtils 安装说明
 
 ## 从GitHub安装
 
@@ -6,37 +6,37 @@
 # 安装devtools（如果还没有）
 if (!require(devtools)) install.packages("devtools")
 
-# 从GitHub安装MSCRUtils
-devtools::install_github("SongbiaoZhu/MSCRUtils")
+# 从GitHub安装MassKitUtils
+devtools::install_github("SongbiaoZhu/MassKitUtils")
 ```
 
 ## 从本地文件安装
 
 ```r
 # 安装本地构建的包
-install.packages("MSCRUtils_1.0.0.tar.gz", repos = NULL, type = "source")
+install.packages("MassKitUtils_1.0.0.tar.gz", repos = NULL, type = "source")
 ```
 
 ## 验证安装
 
 ```r
-library(MSCRUtils)
-ls("package:MSCRUtils")
+library(MassKitUtils)
+ls("package:MassKitUtils")
 ```
 
 ## 查看文档
 
 ```r
 # 查看包帮助
-?MSCRUtils
+?MassKitUtils
 
 # 查看vignette
-vignette("getting-started", package = "MSCRUtils")
+vignette("getting-started", package = "MassKitUtils")
 ```
 
 ## 依赖包
 
-MSCRUtils会自动安装以下依赖包：
+MassKitUtils会自动安装以下依赖包：
 - openxlsx (Excel文件处理)
 - 其他R基础包
 
