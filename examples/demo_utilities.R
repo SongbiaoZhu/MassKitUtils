@@ -2,7 +2,7 @@
 # This script demonstrates the usage of various utility functions
 
 # Load the package
-library(MSCRUtils)
+library(MassKitUtils)
 
 # 包管理示例 ===
 

@@ -5,3 +5,11 @@
 ^temp/
 ^.*\.tmp$
 ^.*\.log$
+^scripts/
+^FINAL_RELEASE_SUMMARY\.md$
+^RELEASE_NOTES_FINAL\.md$
+^GITHUB_RELEASE_CHECKLIST\.md$
+^INSTALL\.md$
+^data-raw/
+^docs/
+^\.github/
