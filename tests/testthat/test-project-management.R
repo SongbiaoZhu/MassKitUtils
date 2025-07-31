@@ -44,7 +44,7 @@ test_that("create_r_project 参数验证测试", {
 
 test_that("create_r_project 路径验证测试", {
   # 测试无效路径
-  expect_error(create_r_project("test", "/invalid/path/that/does/not/exist"), 
+  expect_error(create_r_project("test", "/this/path/definitely/does/not/exist/12345"), 
                "Specified path does not exist")
   
   # 测试NULL路径

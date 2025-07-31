@@ -12,27 +12,41 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # Create project in current directory
-#' create_r_project("my_analysis_project")
+#' # Create project in temporary directory
+#' temp_dir <- tempdir()
+#' create_r_project("my_analysis_project", path = temp_dir)
 #'
 #' # Create project in specific path
 #' create_r_project("my_analysis_project", path = "~/projects")
 #'
 #' # Create without environment setup
-#' create_r_project("my_analysis_project", setup_env = FALSE)
+#' create_r_project("my_analysis_project", path = temp_dir, setup_env = FALSE)
 #' }
-create_r_project <- function(project_name, path = getwd(), setup_env = TRUE) {
+create_r_project <- function(project_name, path = getwd(), setup_env = TRUE, quiet = FALSE) {
   # Parameter validation
   if (missing(project_name) || is.null(project_name)) {
     stop("Parameter 'project_name' is required and cannot be empty")
   }
   
-  if (!is.character(project_name) || length(project_name) != 1) {
+  if (!is.character(project_name)) {
+    stop("Parameter 'project_name' must be a non-empty character vector")
+  }
+  
+  if (length(project_name) != 1) {
     stop("Parameter 'project_name' must be a character vector of length 1")
   }
   
+  if (nchar(project_name) == 0) {
+    stop("Parameter 'project_name' must be a non-empty character vector")
+  }
+  
   if (!is.character(path) || length(path) != 1) {
-    stop("Parameter 'path' must be a character vector of length 1")
+    stop("Parameter 'path' must be a character vector")
+  }
+  
+  # Check if path exists
+  if (!dir.exists(path)) {
+    stop("Specified path does not exist")
   }
   
   # 创建项目目录
@@ -171,11 +185,13 @@ create_r_project <- function(project_name, path = getwd(), setup_env = TRUE) {
     writeLines(env_script, file.path(project_path, "setup_environment.R"))
   }
   
-  cat("R project '", project_name, "' created successfully at:\n", project_path, "\n")
-  cat("Standard directory structure has been created.\n")
-  
-  if (setup_env) {
-    cat("Environment setup script 'setup_environment.R' has been created.\n")
+  if (!quiet) {
+    message("R project '", project_name, "' created successfully at: ", project_path)
+    message("Standard directory structure has been created.")
+    
+    if (setup_env) {
+      message("Environment setup script 'setup_environment.R' has been created.")
+    }
   }
   
   invisible(NULL)

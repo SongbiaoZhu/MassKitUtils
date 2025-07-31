@@ -44,13 +44,15 @@
 
 #' 
 #' @examples
+#' \dontrun{
 #' # Package management
 #' install_if_missing(c("dplyr", "ggplot2"))
 #' load_packages(c("dplyr", "ggplot2"))
 #' check_package_versions(c("dplyr", "ggplot2"))
 #' 
 #' # Project management
-#' create_r_project("my_analysis_project")
+#' temp_dir <- tempdir()
+#' create_r_project("my_analysis_project", path = temp_dir)
 #' 
 #' # File management
 #' ensure_directory("output/figures")
@@ -59,8 +61,7 @@
 #' export_to_excel(mtcars, "cars.xlsx", 
 #'                header_style = "colored", 
 #'                table_style = "striped")
-#' 
-
+#' }
 #' 
 #' @docType package
 #' @name MassKitUtils

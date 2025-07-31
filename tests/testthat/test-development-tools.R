@@ -128,7 +128,7 @@ test_that("create_ignore_files 基本功能测试", {
   dir.create(test_dir)
   
   # 执行测试
-  expect_silent(create_ignore_files(test_dir))
+  expect_silent(create_ignore_files(test_dir, quiet = TRUE))
   
   # 验证文件已创建
   expect_true(file.exists(file.path(test_dir, ".gitignore")))
@@ -139,18 +139,15 @@ test_that("create_ignore_files 基本功能测试", {
 })
 
 test_that("create_ignore_files 参数验证测试", {
-  # 测试缺失参数
-  expect_error(create_ignore_files(), "Parameter 'project_path' must be a character vector")
-  
   # 测试NULL参数
-  expect_error(create_ignore_files(NULL), "Parameter 'project_path' must be a character vector")
+  expect_error(create_ignore_files(NULL), "Parameter 'project_path' must be a character vector of length 1")
   
   # 测试非字符向量
-  expect_error(create_ignore_files(123), "Parameter 'project_path' must be a character vector")
+  expect_error(create_ignore_files(123), "Parameter 'project_path' must be a character vector of length 1")
   expect_error(create_ignore_files(c("dir1", "dir2")), "Parameter 'project_path' must be a character vector of length 1")
   
   # 测试不存在的目录
-  expect_error(create_ignore_files("/invalid/path/that/does/not/exist"), 
+  expect_error(create_ignore_files("/this/path/definitely/does/not/exist/12345"), 
                "Project directory does not exist")
 })
 
@@ -160,7 +157,7 @@ test_that("create_ignore_files 文件内容验证测试", {
   dir.create(test_dir)
   
   # 执行测试
-  create_ignore_files(test_dir)
+  create_ignore_files(test_dir, quiet = TRUE)
   
   # 验证.gitignore内容
   gitignore_content <- readLines(file.path(test_dir, ".gitignore"))
@@ -183,7 +180,7 @@ test_that("create_ignore_files overwrite参数测试", {
   dir.create(test_dir)
   
   # 第一次创建
-  create_ignore_files(test_dir)
+  create_ignore_files(test_dir, quiet = TRUE)
   
   # 第二次创建（不覆盖）
   expect_message(create_ignore_files(test_dir, overwrite = FALSE), 
@@ -209,7 +206,7 @@ test_that("create_ignore_files 默认路径测试", {
   setwd(test_dir)
   
   # 执行测试（使用默认路径）
-  expect_silent(create_ignore_files())
+  expect_silent(create_ignore_files(quiet = TRUE))
   
   # 验证文件已创建
   expect_true(file.exists(".gitignore"))

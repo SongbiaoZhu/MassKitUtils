@@ -4,7 +4,7 @@
 \alias{create_ignore_files}
 \title{Create Standard Ignore Files}
 \usage{
-create_ignore_files(project_path = ".", overwrite = FALSE)
+create_ignore_files(project_path = ".", overwrite = FALSE, quiet = FALSE)
 }
 \arguments{
 \item{project_path}{Character string for the project root directory (default: ".")}

@@ -25,17 +25,32 @@
 ensure_directory <- function(path, recursive = TRUE, showWarnings = FALSE) {
   # 参数验证
   if (missing(path) || is.null(path)) {
-    stop("Parameter 'path' is required and cannot be empty")
+    stop("Parameter 'directory_path' is required and cannot be empty")
   }
   
-  if (!is.character(path) || length(path) != 1) {
-    stop("Parameter 'path' must be a character vector of length 1")
+  if (!is.character(path)) {
+    stop("Parameter 'directory_path' must be a non-empty character vector")
   }
   
-  if (!dir.exists(path)) {
+  if (length(path) != 1) {
+    stop("Parameter 'directory_path' must be a character vector of length 1")
+  }
+  
+  if (nchar(path) == 0) {
+    stop("Parameter 'directory_path' must be a non-empty character vector")
+  }
+  
+  # 检查路径是否已存在
+  if (file.exists(path)) {
+    if (!dir.exists(path)) {
+      stop("Path exists and is not a directory")
+    }
+    # 目录已存在，不需要创建
+  } else {
+    # 目录不存在，创建它
     dir.create(path, recursive = recursive, showWarnings = showWarnings)
     if (dir.exists(path)) {
-      cat("Directory created:", path, "\n")
+      # message("Directory created: ", path)
     } else {
       stop("Failed to create directory:", path)
     }

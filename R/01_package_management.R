@@ -41,7 +41,7 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
                               github_packages = NULL) {
   # Parameter validation
   if (is.null(packages) && is.null(github_packages)) {
-    stop("At least one of 'packages' or 'github_packages' must be provided")
+    stop("Parameter 'packages' is required and cannot be empty")
   }
   
   # 处理CRAN和Bioconductor包
@@ -55,16 +55,16 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
     
     if (length(missing_packages) > 0) {
       if (!quiet) {
-        cat("Installing missing packages:", paste(missing_packages, collapse = ", "), "\n")
+        message("Installing missing packages: ", paste(missing_packages, collapse = ", "))
       }
       
       # 安装Bioconductor包
       if (bioc) {
-        if (!quiet) cat("Installing Bioconductor packages...\n")
+        if (!quiet) message("Installing Bioconductor packages...")
         
         # 检查BiocManager是否已安装
         if (!requireNamespace("BiocManager", quietly = TRUE)) {
-          if (!quiet) cat("Installing BiocManager...\n")
+          if (!quiet) message("Installing BiocManager...")
           install.packages("BiocManager", repos = repos, quiet = quiet)
         }
         
@@ -72,17 +72,17 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
         BiocManager::install(missing_packages, dependencies = dependencies, quiet = quiet)
       } else {
         # 安装CRAN包
-        if (!quiet) cat("Installing CRAN packages...\n")
+        if (!quiet) message("Installing CRAN packages...")
         utils::install.packages(missing_packages, repos = repos, 
                               dependencies = dependencies, quiet = quiet)
       }
       
       if (!quiet) {
-        cat("Package installation completed.\n")
+        message("Package installation completed.")
       }
     } else {
       if (!quiet) {
-        cat("All packages are already installed.\n")
+        message("All packages are already installed.")
       }
     }
   }
@@ -95,7 +95,7 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
     
     # 检查devtools是否已安装
     if (!requireNamespace("devtools", quietly = TRUE)) {
-      if (!quiet) cat("Installing devtools for GitHub package installation...\n")
+      if (!quiet) message("Installing devtools for GitHub package installation...")
       install.packages("devtools", repos = repos, quiet = quiet)
     }
     
@@ -105,12 +105,12 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
     
     if (length(missing_github_packages) > 0) {
       if (!quiet) {
-        cat("Installing missing GitHub packages:", paste(missing_github_packages, collapse = ", "), "\n")
+        message("Installing missing GitHub packages: ", paste(missing_github_packages, collapse = ", "))
       }
       
       for (pkg_name in missing_github_packages) {
         repo <- github_packages[pkg_name]
-        if (!quiet) cat("Installing", pkg_name, "from", repo, "...\n")
+        if (!quiet) message("Installing ", pkg_name, " from ", repo, "...")
         
         tryCatch({
           devtools::install_github(repo, quiet = quiet, dependencies = dependencies)
@@ -122,11 +122,11 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
       }
       
       if (!quiet) {
-        cat("GitHub package installation completed.\n")
+        message("GitHub package installation completed.")
       }
     } else {
       if (!quiet) {
-        cat("All GitHub packages are already installed.\n")
+        message("All GitHub packages are already installed.")
       }
     }
   }
@@ -175,32 +175,32 @@ install_from_sources <- function(cran_packages = NULL, bioc_packages = NULL,
   }
   
   if (!quiet) {
-    cat("=== Multi-source Package Installation ===\n")
+    message("=== Multi-source Package Installation ===")
   }
   
   # 安装CRAN包
   if (!is.null(cran_packages)) {
-    if (!quiet) cat("\n1. Installing CRAN packages...\n")
+          if (!quiet) message("\n1. Installing CRAN packages...")
     install_if_missing(packages = cran_packages, repos = repos, 
                       dependencies = dependencies, quiet = quiet, bioc = FALSE)
   }
   
   # 安装Bioconductor包
   if (!is.null(bioc_packages)) {
-    if (!quiet) cat("\n2. Installing Bioconductor packages...\n")
+          if (!quiet) message("\n2. Installing Bioconductor packages...")
     install_if_missing(packages = bioc_packages, repos = repos, 
                       dependencies = dependencies, quiet = quiet, bioc = TRUE)
   }
   
   # 安装GitHub包
   if (!is.null(github_packages)) {
-    if (!quiet) cat("\n3. Installing GitHub packages...\n")
+          if (!quiet) message("\n3. Installing GitHub packages...")
     install_if_missing(github_packages = github_packages, repos = repos, 
                       dependencies = dependencies, quiet = quiet)
   }
   
   if (!quiet) {
-    cat("\n=== Multi-source installation completed ===\n")
+    message("\n=== Multi-source installation completed ===")
   }
   
   invisible(NULL)

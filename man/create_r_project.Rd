@@ -4,7 +4,7 @@
 \alias{create_r_project}
 \title{Create a new R project with standard structure}
 \usage{
-create_r_project(project_name, path = getwd(), setup_env = TRUE)
+create_r_project(project_name, path = getwd(), setup_env = TRUE, quiet = FALSE)
 }
 \arguments{
 \item{project_name}{Character string for the project name}
@@ -22,13 +22,14 @@ including common subdirectories, configuration files, and documentation.
 }
 \examples{
 \dontrun{
-# Create project in current directory
-create_r_project("my_analysis_project")
+# Create project in temporary directory
+temp_dir <- tempdir()
+create_r_project("my_analysis_project", path = temp_dir)
 
 # Create project in specific path
 create_r_project("my_analysis_project", path = "~/projects")
 
 # Create without environment setup
-create_r_project("my_analysis_project", setup_env = FALSE)
+create_r_project("my_analysis_project", path = temp_dir, setup_env = FALSE)
 }
 }

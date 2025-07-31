@@ -68,7 +68,8 @@ export_to_excel <- function(data, filename, sheet_name = "Data",
                            auto_width = TRUE,
                            freeze_pane = TRUE,
                            add_summary = FALSE,
-                           format_table = TRUE) {
+                           format_table = TRUE,
+                           quiet = FALSE) {
   
   # 参数验证
   if (missing(data) || is.null(data)) {
@@ -89,6 +90,10 @@ export_to_excel <- function(data, filename, sheet_name = "Data",
   
   if (!is.character(filename) || length(filename) != 1) {
     stop("Parameter 'filename' must be a character vector of length 1")
+  }
+  
+  if (nchar(filename) == 0) {
+    stop("Parameter 'filename' is required and cannot be empty")
   }
   
   # 验证样式参数
@@ -152,7 +157,9 @@ export_to_excel <- function(data, filename, sheet_name = "Data",
   
   # 保存工作簿
   openxlsx::saveWorkbook(wb, filename, overwrite = TRUE)
-  cat("Excel file saved to:", filename, "\n")
+  if (!quiet) {
+    message("Excel file saved to: ", filename)
+  }
   
   invisible(NULL)
 }

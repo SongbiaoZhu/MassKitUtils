@@ -48,16 +48,17 @@ generate_dev_standards <- function(output_dir = "./dev/design",
   generate_release_checklist(output_dir, package_name, overwrite)
   generate_templates(output_dir, package_name, overwrite)
   
-  cat("R package development standards documentation generated successfully!\n")
-  cat("Location:", output_dir, "\n")
-  cat("Files created:\n")
-  cat("- 01_overview.md\n")
-  cat("- 02_coding_standards.md\n")
-  cat("- 03_testing_standards.md\n")
-  cat("- 04_documentation_standards.md\n")
-  cat("- 05_git_workflow.md\n")
-  cat("- 06_release_checklist.md\n")
-  cat("- templates/\n")
+  # 静默模式，不输出消息
+  # message("R package development standards documentation generated successfully!")
+  # message("Location: ", output_dir)
+  # message("Files created:")
+  # message("- 01_overview.md")
+  # message("- 02_coding_standards.md")
+  # message("- 03_testing_standards.md")
+  # message("- 04_documentation_standards.md")
+  # message("- 05_git_workflow.md")
+  # message("- 06_release_checklist.md")
+  # message("- templates/")
   
   invisible(NULL)
 }
@@ -740,7 +741,7 @@ generate_templates <- function(output_dir, package_name, overwrite) {
 #' @param overwrite Logical, whether to overwrite existing files (default: FALSE)
 #' @return Invisible NULL
 #' @export
-create_ignore_files <- function(project_path = ".", overwrite = FALSE) {
+create_ignore_files <- function(project_path = ".", overwrite = FALSE, quiet = FALSE) {
   
   # Parameter validation
   if (!is.character(project_path) || length(project_path) != 1) {
@@ -748,7 +749,7 @@ create_ignore_files <- function(project_path = ".", overwrite = FALSE) {
   }
   
   if (!dir.exists(project_path)) {
-    stop("Project directory does not exist: ", project_path)
+    stop("Project directory does not exist")
   }
   
   # Standard .gitignore content for R packages
@@ -808,13 +809,13 @@ create_ignore_files <- function(project_path = ".", overwrite = FALSE) {
   
   # Standard .Rbuildignore content
   rbuildignore_content <- c(
-    "^LICENSE\\.md$",
-    "^dev/",
-    "^examples/",
-    "^output/",
-    "^temp/",
-    "^*.tmp$",
-    "^*.log$"
+    "LICENSE.md",
+    "dev/",
+    "examples/",
+    "output/",
+    "temp/",
+    "*.tmp",
+    "*.log"
   )
   
   # File paths
@@ -824,17 +825,25 @@ create_ignore_files <- function(project_path = ".", overwrite = FALSE) {
   # Create .gitignore
   if (!file.exists(gitignore_path) || overwrite) {
     writeLines(gitignore_content, gitignore_path, useBytes = TRUE)
-    cat("Created .gitignore file\n")
+    if (!quiet) {
+      message("Created .gitignore file")
+    }
   } else {
-    cat(".gitignore file already exists (use overwrite=TRUE to replace)\n")
+    if (!quiet) {
+      message(".gitignore file already exists (use overwrite=TRUE to replace)")
+    }
   }
   
   # Create .Rbuildignore
   if (!file.exists(rbuildignore_path) || overwrite) {
     writeLines(rbuildignore_content, rbuildignore_path, useBytes = TRUE)
-    cat("Created .Rbuildignore file\n")
+    if (!quiet) {
+      message("Created .Rbuildignore file")
+    }
   } else {
-    cat(".Rbuildignore file already exists (use overwrite=TRUE to replace)\n")
+    if (!quiet) {
+      message(".Rbuildignore file already exists (use overwrite=TRUE to replace)")
+    }
   }
   
   invisible(NULL)

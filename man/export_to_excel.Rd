@@ -17,7 +17,8 @@ export_to_excel(
   auto_width = TRUE,
   freeze_pane = TRUE,
   add_summary = FALSE,
-  format_table = TRUE
+  format_table = TRUE,
+  quiet = FALSE
 )
 }
 \arguments{

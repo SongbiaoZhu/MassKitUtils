@@ -13,7 +13,7 @@ test_that("完整工作流程测试", {
   }
   
   # 步骤1: 创建R项目
-  expect_silent(create_r_project(test_project_name, test_path))
+  expect_silent(create_r_project(test_project_name, test_path, quiet = TRUE))
   expect_true(dir.exists(test_project_path))
   
   # 步骤2: 确保输出目录存在
@@ -23,7 +23,7 @@ test_that("完整工作流程测试", {
   
   # 步骤3: 安装和加载必要的包
   test_packages <- c("dplyr", "readr")
-  expect_silent(install_if_missing(test_packages))
+  expect_silent(install_if_missing(test_packages, quiet = TRUE))
   load_status <- load_packages(test_packages, quiet = TRUE)
   expect_true(all(load_status))
   
@@ -36,7 +36,7 @@ test_that("完整工作流程测试", {
   )
   
   excel_file <- file.path(output_dir, "sample_data.xlsx")
-  expect_silent(export_to_excel(sample_data, excel_file))
+  expect_silent(export_to_excel(sample_data, excel_file, quiet = TRUE))
   expect_true(file.exists(excel_file))
   
   # 步骤5: 生成开发标准文档
@@ -87,13 +87,14 @@ test_that("数据导出工作流程测试", {
     
     expect_silent(export_to_excel(numeric_data, file_name, 
                                  header_style = style$header_style,
-                                 table_style = style$table_style))
+                                 table_style = style$table_style,
+                                 quiet = TRUE))
     expect_true(file.exists(file_name))
   }
   
   # 测试带摘要的导出
   summary_file <- file.path(test_dir, "data_with_summary.xlsx")
-  expect_silent(export_to_excel(mixed_data, summary_file, add_summary = TRUE))
+  expect_silent(export_to_excel(mixed_data, summary_file, add_summary = TRUE, quiet = TRUE))
   expect_true(file.exists(summary_file))
   
   # 清理
@@ -109,7 +110,7 @@ test_that("包管理集成测试", {
   expect_true(is.data.frame(version_info))
   
   # 步骤2: 确保包已安装
-  expect_silent(install_if_missing(test_packages))
+  expect_silent(install_if_missing(test_packages, quiet = TRUE))
   
   # 步骤3: 加载包
   load_status <- load_packages(test_packages, quiet = TRUE)
@@ -149,7 +150,7 @@ test_that("文件操作集成测试", {
   }
   
   # 步骤3: 创建ignore文件
-  expect_silent(create_ignore_files(test_dir))
+  expect_silent(create_ignore_files(test_dir, quiet = TRUE))
   expect_true(file.exists(file.path(test_dir, ".gitignore")))
   expect_true(file.exists(file.path(test_dir, ".Rbuildignore")))
   
@@ -186,7 +187,7 @@ test_that("错误处理集成测试", {
   
   # 测试无效的开发工具
   expect_error(generate_dev_standards(), "Parameter 'output_dir' is required and cannot be empty")
-  expect_error(create_ignore_files("/invalid/path"), "Project directory does not exist")
+  expect_error(create_ignore_files("/this/path/definitely/does/not/exist/12345"), "Project directory does not exist")
 })
 
 test_that("性能测试", {
@@ -211,7 +212,7 @@ test_that("性能测试", {
   # 测试数据导出性能
   excel_file <- file.path(test_dir, "large_data.xlsx")
   start_time <- Sys.time()
-  export_to_excel(large_data, excel_file)
+  export_to_excel(large_data, excel_file, quiet = TRUE)
   end_time <- Sys.time()
   expect_true(as.numeric(difftime(end_time, start_time, units = "secs")) < 10)
   expect_true(file.exists(excel_file))
@@ -235,7 +236,7 @@ test_that("内存管理测试", {
   
   # 测试包管理功能的内存使用
   test_packages <- c("testthat", "devtools")
-  expect_silent(install_if_missing(test_packages))
+  expect_silent(install_if_missing(test_packages, quiet = TRUE))
   expect_silent(load_packages(test_packages, quiet = TRUE))
   expect_silent(check_package_versions(test_packages))
   
@@ -260,7 +261,7 @@ test_that("并发操作测试", {
   project_names <- paste0("project_", 1:2)
   for (i in seq_along(project_names)) {
     project_path <- file.path(test_dirs[i], project_names[i])
-    expect_silent(create_r_project(project_names[i], test_dirs[i]))
+    expect_silent(create_r_project(project_names[i], test_dirs[i], quiet = TRUE))
     expect_true(dir.exists(project_path))
   }
   
