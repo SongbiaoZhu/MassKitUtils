@@ -739,6 +739,7 @@ generate_templates <- function(output_dir, package_name, overwrite) {
 #'
 #' @param project_path Character string for the project root directory (default: ".")
 #' @param overwrite Logical, whether to overwrite existing files (default: FALSE)
+#' @param quiet Logical, whether to suppress messages (default: FALSE)
 #' @return Invisible NULL
 #' @export
 create_ignore_files <- function(project_path = ".", overwrite = FALSE, quiet = FALSE) {

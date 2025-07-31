@@ -8,6 +8,7 @@
 #' @param project_name Character string for the project name
 #' @param path Character string for the project path (default: current working directory)
 #' @param setup_env Logical, whether to set up environment (default: TRUE)
+#' @param quiet Logical, whether to suppress messages (default: FALSE)
 #' @return Invisible NULL
 #' @export
 #' @examples

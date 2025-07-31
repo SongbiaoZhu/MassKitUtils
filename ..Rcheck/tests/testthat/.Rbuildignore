@@ -1,0 +1,7 @@
+^LICENSE\.md$
+^dev/
+^examples/
+^output/
+^temp/
+^*.tmp$
+^*.log$

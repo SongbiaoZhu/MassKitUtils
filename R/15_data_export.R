@@ -31,6 +31,7 @@
 #' @param freeze_pane Logical, whether to freeze the first row (default: TRUE)
 #' @param add_summary Logical, whether to add summary statistics (default: FALSE)
 #' @param format_table Logical, whether to apply table formatting (default: TRUE)
+#' @param quiet Logical, whether to suppress messages (default: FALSE)
 #'
 #' @return Invisible NULL
 #'

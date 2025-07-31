@@ -59,6 +59,8 @@ export_to_excel(
 \item{add_summary}{Logical, whether to add summary statistics (default: FALSE)}
 
 \item{format_table}{Logical, whether to apply table formatting (default: TRUE)}
+
+\item{quiet}{Logical, whether to suppress messages (default: FALSE)}
 }
 \value{
 Invisible NULL

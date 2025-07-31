@@ -1,0 +1,51 @@
+# R specific files
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+.Rprofile
+
+# Package build files
+*.tar.gz
+*.zip
+*.tgz
+
+# Documentation
+docs/
+vignettes/*.html
+vignettes/*.pdf
+
+# Test files
+tests/testthat.Rcheck/
+
+# Data files
+data/*.rda
+data/*.rds
+data/*.csv
+data/*.xlsx
+
+# Output files
+output/*.pdf
+output/*.png
+output/*.jpg
+output/*.xlsx
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Package development
+pkgdown/
+docs/

@@ -10,6 +10,8 @@ create_ignore_files(project_path = ".", overwrite = FALSE, quiet = FALSE)
 \item{project_path}{Character string for the project root directory (default: ".")}
 
 \item{overwrite}{Logical, whether to overwrite existing files (default: FALSE)}
+
+\item{quiet}{Logical, whether to suppress messages (default: FALSE)}
 }
 \value{
 Invisible NULL

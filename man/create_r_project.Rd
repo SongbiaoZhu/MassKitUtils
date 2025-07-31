@@ -12,6 +12,8 @@ create_r_project(project_name, path = getwd(), setup_env = TRUE, quiet = FALSE)
 \item{path}{Character string for the project path (default: current working directory)}
 
 \item{setup_env}{Logical, whether to set up environment (default: TRUE)}
+
+\item{quiet}{Logical, whether to suppress messages (default: FALSE)}
 }
 \value{
 Invisible NULL
