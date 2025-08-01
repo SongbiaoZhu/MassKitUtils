@@ -27,7 +27,7 @@ print(version_info)
 cat("\n=== Project Management Examples ===\n")
 
 # Create a new R project (commented out to avoid creating during demo)
-# create_analysis_directory("demo_analysis")
+# setup_analysis_structure()
 
 # 文件管理示例 ===
 

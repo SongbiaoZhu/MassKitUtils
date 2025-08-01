@@ -5,7 +5,7 @@
 ### 函数命名
 - 使用`snake_case`命名法
 - 动词开头，描述函数功能
-- 示例: `ensure_packages`, `create_analysis_directory`, `export_to_excel`
+- 示例: `ensure_packages`, `setup_analysis_structure`, `export_to_excel`
 
 ### 变量命名
 - 使用`snake_case`命名法

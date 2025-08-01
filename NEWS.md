@@ -97,8 +97,8 @@ devtools::install_github("SongbiaoZhu/MassKitUtils")
 ```r
 library(MassKitUtils)
 
-# 创建分析目录
-create_analysis_directory("my_analysis")
+# 设置分析目录结构
+setup_analysis_structure()
 
 # 安装依赖包（支持多源）
 ensure_packages(c("dplyr", "ggplot2", "readr"))

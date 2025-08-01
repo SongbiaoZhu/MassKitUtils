@@ -130,7 +130,7 @@ generate_coding_standards <- function(output_dir, package_name, overwrite) {
     "### 函数命名\n",
     "- 使用`snake_case`命名法\n",
     "- 动词开头，描述函数功能\n",
-    "- 示例: `ensure_packages`, `create_analysis_directory`, `export_to_excel`\n\n",
+    "- 示例: `ensure_packages`, `setup_analysis_structure`, `export_to_excel`\n\n",
     "### 变量命名\n",
     "- 使用`snake_case`命名法\n",
     "- 描述性名称，避免缩写\n",

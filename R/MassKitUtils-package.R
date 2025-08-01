@@ -23,7 +23,7 @@
 #'
 #' @section Project Management:
 #' \itemize{
-#'   \item \code{\link{create_analysis_directory}}: Create a new analysis directory with standard structure
+#'   \item \code{\link{setup_analysis_structure}}: Setup standard analysis directory structure in current directory
 #' }
 #'
 #' @section File Management:
@@ -54,7 +54,7 @@
 #' 
 #' # Project management
 #' temp_dir <- tempdir()
-#' create_analysis_directory("my_analysis", path = temp_dir)
+#' setup_analysis_structure()
 #' 
 #' # File management
 #' ensure_directory("output/figures")

@@ -9,7 +9,7 @@ test_that("测试覆盖总结", {
   
   cat("\n=== MassKitUtils 测试覆盖总结 ===\n")
   cat("✓ 包管理功能测试: ensure_packages, load_packages, check_package_versions\n")
-  cat("✓ 项目管理功能测试: create_analysis_directory\n")
+  cat("✓ 项目管理功能测试: setup_analysis_structure\n")
   cat("✓ 文件管理功能测试: ensure_directory\n")
   cat("✓ 数据导出功能测试: export_to_excel\n")
   cat("✓ 开发工具功能测试: create_dev_standards, create_gitignore, create_rbuildignore\n")
