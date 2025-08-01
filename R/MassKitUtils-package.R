@@ -15,14 +15,15 @@
 #'
 #' @section Package Management:
 #' \itemize{
-#'   \item \code{\link{install_if_missing}}: Install packages if they are missing
+#'   \item \code{\link{ensure_packages}}: Ensure packages are installed with intelligent source detection (CRAN/Bioconductor)
 #'   \item \code{\link{load_packages}}: Load packages with error handling
 #'   \item \code{\link{check_package_versions}}: Check package versions
+#'   \item \code{\link{install_from_multiple_sources}}: Install packages from multiple sources (CRAN/Bioconductor)
 #' }
 #'
 #' @section Project Management:
 #' \itemize{
-#'   \item \code{\link{create_r_project}}: Create a new R project with standard structure
+#'   \item \code{\link{create_analysis_directory}}: Create a new analysis directory with standard structure
 #' }
 #'
 #' @section File Management:
@@ -37,8 +38,9 @@
 #'
 #' @section Development Tools:
 #' \itemize{
-#'   \item \code{\link{generate_dev_standards}}: Generate comprehensive R package development standards documentation
-#'   \item \code{\link{create_ignore_files}}: Create standard .gitignore and .Rbuildignore files for R package development
+#'   \item \code{\link{create_dev_standards}}: Create comprehensive R package development standards documentation
+#'   \item \code{\link{create_gitignore}}: Create standard .gitignore file for R projects
+#'   \item \code{\link{create_rbuildignore}}: Create standard .Rbuildignore file for R packages
 #' }
 #'
 
@@ -46,13 +48,13 @@
 #' @examples
 #' \dontrun{
 #' # Package management
-#' install_if_missing(c("dplyr", "ggplot2"))
+#' ensure_packages(c("dplyr", "ggplot2"))
 #' load_packages(c("dplyr", "ggplot2"))
 #' check_package_versions(c("dplyr", "ggplot2"))
 #' 
 #' # Project management
 #' temp_dir <- tempdir()
-#' create_r_project("my_analysis_project", path = temp_dir)
+#' create_analysis_directory("my_analysis", path = temp_dir)
 #' 
 #' # File management
 #' ensure_directory("output/figures")
@@ -63,6 +65,5 @@
 #'                table_style = "striped")
 #' }
 #' 
-#' @docType package
-#' @name MassKitUtils
-NULL 
+#' @keywords internal
+"_PACKAGE" 

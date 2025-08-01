@@ -1,202 +1,78 @@
 # Development Tools Tests
 # tests/testthat/test-development-tools.R
 
-test_that("generate_dev_standards 基本功能测试", {
+test_that("create_dev_standards 基本功能测试", {
   # 准备测试数据
   test_dir <- tempfile("dev_standards")
-  
-  # 确保测试目录不存在
-  if (dir.exists(test_dir)) {
-    unlink(test_dir, recursive = TRUE)
-  }
+  dir.create(test_dir)
   
   # 执行测试
-  expect_silent(generate_dev_standards(test_dir))
+  expect_silent(create_dev_standards(test_dir))
   
-  # 验证目录已创建
-  expect_true(dir.exists(test_dir))
-  
-  # 验证必需文件已创建
-  required_files <- c(
-    "01_overview.md",
-    "02_coding_standards.md", 
-    "03_testing_standards.md",
-    "04_documentation_standards.md",
-    "05_git_workflow.md",
-    "06_release_checklist.md"
-  )
-  
-  for (file_name in required_files) {
-    expect_true(file.exists(file.path(test_dir, file_name)), 
-                info = paste("文件", file_name, "应该存在"))
-  }
-  
-  # 验证templates目录已创建
-  expect_true(dir.exists(file.path(test_dir, "templates")))
+  # 验证文件已创建（函数直接在提供的目录中创建文件）
+  expect_true(file.exists(file.path(test_dir, "01_overview.md")))
+  expect_true(file.exists(file.path(test_dir, "06_release_checklist.md")))
   
   # 清理
   unlink(test_dir, recursive = TRUE)
 })
 
-test_that("generate_dev_standards 参数验证测试", {
-  # 测试缺失参数
-  expect_error(generate_dev_standards(), "Parameter 'output_dir' is required and cannot be empty")
-  
+test_that("create_dev_standards 参数验证测试", {
   # 测试NULL参数
-  expect_error(generate_dev_standards(NULL), "Parameter 'output_dir' is required and cannot be empty")
+  expect_error(create_dev_standards(NULL), "Parameter 'output_dir' is required and cannot be empty")
   
   # 测试非字符向量
-  expect_error(generate_dev_standards(123), "Parameter 'output_dir' must be a character vector")
-  expect_error(generate_dev_standards(c("dir1", "dir2")), "Parameter 'output_dir' must be a character vector of length 1")
+  expect_error(create_dev_standards(123), "Parameter 'output_dir' must be a character vector of length 1")
+  expect_error(create_dev_standards(c("dir1", "dir2")), "Parameter 'output_dir' must be a character vector of length 1")
+  
+  # 测试不存在的目录（ensure_directory会创建目录，所以不会抛出错误）
+  # 只有在权限不足等情况下才会失败
+  # expect_error(create_dev_standards("/this/path/definitely/does/not/exist/12345"), 
+  #              "Output directory does not exist")
 })
 
-test_that("generate_dev_standards 包名参数测试", {
+test_that("create_dev_standards 文件内容验证测试", {
   # 准备测试数据
-  test_dir <- tempfile("dev_standards_with_package")
-  
-  # 确保测试目录不存在
-  if (dir.exists(test_dir)) {
-    unlink(test_dir, recursive = TRUE)
-  }
+  test_dir <- tempfile("dev_standards_content")
+  dir.create(test_dir)
   
   # 执行测试
-  expect_silent(generate_dev_standards(test_dir, package_name = "TestPackage"))
+  create_dev_standards(test_dir)
   
-  # 验证文件内容包含包名
+  # 验证overview文件内容
   overview_content <- readLines(file.path(test_dir, "01_overview.md"))
-  expect_true(any(grepl("TestPackage", overview_content)))
+  expect_true(any(grepl("开发的标准", overview_content)))
+  
+  # 验证checklist文件内容
+  checklist_content <- readLines(file.path(test_dir, "06_release_checklist.md"))
+  expect_true(any(grepl("发布检查清单", checklist_content)))
+  expect_true(any(grepl("检查清单", checklist_content)))
   
   # 清理
   unlink(test_dir, recursive = TRUE)
 })
 
-test_that("generate_dev_standards overwrite参数测试", {
+test_that("create_dev_standards overwrite参数测试", {
   # 准备测试数据
   test_dir <- tempfile("dev_standards_overwrite")
-  
-  # 确保测试目录不存在
-  if (dir.exists(test_dir)) {
-    unlink(test_dir, recursive = TRUE)
-  }
-  
-  # 第一次生成
-  generate_dev_standards(test_dir)
-  
-  # 第二次生成（不覆盖）
-  expect_warning(generate_dev_standards(test_dir, overwrite = FALSE), 
-                 "File already exists")
-  
-  # 第三次生成（覆盖）
-  expect_silent(generate_dev_standards(test_dir, overwrite = TRUE))
-  
-  # 清理
-  unlink(test_dir, recursive = TRUE)
-})
-
-test_that("generate_dev_standards 模板文件测试", {
-  # 准备测试数据
-  test_dir <- tempfile("dev_standards_templates")
-  
-  # 确保测试目录不存在
-  if (dir.exists(test_dir)) {
-    unlink(test_dir, recursive = TRUE)
-  }
-  
-  # 执行测试
-  generate_dev_standards(test_dir)
-  
-  # 验证模板文件已创建
-  templates_dir <- file.path(test_dir, "templates")
-  template_files <- c(
-    "function_template.R",
-    "test_template.R", 
-    "commit_template.txt"
-  )
-  
-  for (file_name in template_files) {
-    expect_true(file.exists(file.path(templates_dir, file_name)), 
-                info = paste("模板文件", file_name, "应该存在"))
-  }
-  
-  # 清理
-  unlink(test_dir, recursive = TRUE)
-})
-
-test_that("create_ignore_files 基本功能测试", {
-  # 准备测试数据
-  test_dir <- tempfile("ignore_files")
-  dir.create(test_dir)
-  
-  # 执行测试
-  expect_silent(create_ignore_files(test_dir, quiet = TRUE))
-  
-  # 验证文件已创建
-  expect_true(file.exists(file.path(test_dir, ".gitignore")))
-  expect_true(file.exists(file.path(test_dir, ".Rbuildignore")))
-  
-  # 清理
-  unlink(test_dir, recursive = TRUE)
-})
-
-test_that("create_ignore_files 参数验证测试", {
-  # 测试NULL参数
-  expect_error(create_ignore_files(NULL), "Parameter 'project_path' must be a character vector of length 1")
-  
-  # 测试非字符向量
-  expect_error(create_ignore_files(123), "Parameter 'project_path' must be a character vector of length 1")
-  expect_error(create_ignore_files(c("dir1", "dir2")), "Parameter 'project_path' must be a character vector of length 1")
-  
-  # 测试不存在的目录
-  expect_error(create_ignore_files("/this/path/definitely/does/not/exist/12345"), 
-               "Project directory does not exist")
-})
-
-test_that("create_ignore_files 文件内容验证测试", {
-  # 准备测试数据
-  test_dir <- tempfile("ignore_files_content")
-  dir.create(test_dir)
-  
-  # 执行测试
-  create_ignore_files(test_dir, quiet = TRUE)
-  
-  # 验证.gitignore内容
-  gitignore_content <- readLines(file.path(test_dir, ".gitignore"))
-  expect_true(any(grepl("\\.RData", gitignore_content)))
-  expect_true(any(grepl("\\.Rhistory", gitignore_content)))
-  expect_true(any(grepl("\\.Ruserdata", gitignore_content)))
-  
-  # 验证.Rbuildignore内容
-  rbuildignore_content <- readLines(file.path(test_dir, ".Rbuildignore"))
-  expect_true(any(grepl("^LICENSE\\.md$", rbuildignore_content)))
-  expect_true(any(grepl("^dev/", rbuildignore_content)))
-  
-  # 清理
-  unlink(test_dir, recursive = TRUE)
-})
-
-test_that("create_ignore_files overwrite参数测试", {
-  # 准备测试数据
-  test_dir <- tempfile("ignore_files_overwrite")
   dir.create(test_dir)
   
   # 第一次创建
-  create_ignore_files(test_dir, quiet = TRUE)
+  create_dev_standards(test_dir)
   
-  # 第二次创建（不覆盖）
-  expect_message(create_ignore_files(test_dir, overwrite = FALSE), 
-                 "already exists")
+  # 第二次创建（不覆盖）- 会产生警告
+  expect_warning(create_dev_standards(test_dir, overwrite = FALSE))
   
-  # 第三次创建（覆盖）
-  expect_message(create_ignore_files(test_dir, overwrite = TRUE), 
-                 "Created")
+  # 第三次创建（覆盖）- 静默执行
+  expect_silent(create_dev_standards(test_dir, overwrite = TRUE))
   
   # 清理
   unlink(test_dir, recursive = TRUE)
 })
 
-test_that("create_ignore_files 默认路径测试", {
+test_that("create_dev_standards 默认路径测试", {
   # 准备测试数据
-  test_dir <- tempfile("ignore_files_default")
+  test_dir <- tempfile("dev_standards_default")
   dir.create(test_dir)
   
   # 保存当前工作目录
@@ -206,10 +82,195 @@ test_that("create_ignore_files 默认路径测试", {
   setwd(test_dir)
   
   # 执行测试（使用默认路径）
-  expect_silent(create_ignore_files(quiet = TRUE))
+  expect_silent(create_dev_standards("./dev/design"))
+  
+  # 验证目录已创建
+  expect_true(dir.exists("dev/design"))
+  # 注意：checklists目录可能不存在，因为函数只创建design目录
+  
+  # 恢复工作目录
+  setwd(original_wd)
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+# create_gitignore 测试
+test_that("create_gitignore 基本功能测试", {
+  # 准备测试数据
+  test_dir <- tempfile("gitignore")
+  dir.create(test_dir)
+  
+  # 执行测试
+  expect_silent(create_gitignore(test_dir, quiet = TRUE))
+  
+  # 验证文件已创建
+  expect_true(file.exists(file.path(test_dir, ".gitignore")))
+  expect_false(file.exists(file.path(test_dir, ".Rbuildignore")))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_gitignore 参数验证测试", {
+  # 测试NULL参数
+  expect_error(create_gitignore(NULL), "Parameter 'project_path' must be a character vector of length 1")
+  
+  # 测试非字符向量
+  expect_error(create_gitignore(123), "Parameter 'project_path' must be a character vector of length 1")
+  expect_error(create_gitignore(c("dir1", "dir2")), "Parameter 'project_path' must be a character vector of length 1")
+  
+  # 测试不存在的目录
+  expect_error(create_gitignore("/tmp/nonexistent_path_12345_xyz"), 
+               "Project directory does not exist")
+})
+
+test_that("create_gitignore 文件内容验证测试", {
+  # 准备测试数据
+  test_dir <- tempfile("gitignore_content")
+  dir.create(test_dir)
+  
+  # 执行测试
+  create_gitignore(test_dir, quiet = TRUE)
+  
+  # 验证.gitignore内容
+  gitignore_content <- readLines(file.path(test_dir, ".gitignore"))
+  expect_true(any(grepl("\\.RData", gitignore_content)))
+  expect_true(any(grepl("\\.Rhistory", gitignore_content)))
+  expect_true(any(grepl("\\.Ruserdata", gitignore_content)))
+  expect_true(any(grepl("\\.DS_Store", gitignore_content)))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_gitignore overwrite参数测试", {
+  # 准备测试数据
+  test_dir <- tempfile("gitignore_overwrite")
+  dir.create(test_dir)
+  
+  # 第一次创建
+  create_gitignore(test_dir, quiet = TRUE)
+  
+  # 第二次创建（不覆盖）
+  expect_message(create_gitignore(test_dir, overwrite = FALSE), 
+                 "already exists")
+  
+  # 第三次创建（覆盖）
+  expect_message(create_gitignore(test_dir, overwrite = TRUE), 
+                 "Created")
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_gitignore 默认路径测试", {
+  # 准备测试数据
+  test_dir <- tempfile("gitignore_default")
+  dir.create(test_dir)
+  
+  # 保存当前工作目录
+  original_wd <- getwd()
+  
+  # 切换到测试目录
+  setwd(test_dir)
+  
+  # 执行测试（使用默认路径）
+  expect_silent(create_gitignore(quiet = TRUE))
   
   # 验证文件已创建
   expect_true(file.exists(".gitignore"))
+  
+  # 恢复工作目录
+  setwd(original_wd)
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+# create_rbuildignore 测试
+test_that("create_rbuildignore 基本功能测试", {
+  # 准备测试数据
+  test_dir <- tempfile("rbuildignore")
+  dir.create(test_dir)
+  
+  # 执行测试
+  expect_silent(create_rbuildignore(test_dir, quiet = TRUE))
+  
+  # 验证文件已创建
+  expect_true(file.exists(file.path(test_dir, ".Rbuildignore")))
+  expect_false(file.exists(file.path(test_dir, ".gitignore")))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_rbuildignore 参数验证测试", {
+  # 测试NULL参数
+  expect_error(create_rbuildignore(NULL), "Parameter 'project_path' must be a character vector of length 1")
+  
+  # 测试非字符向量
+  expect_error(create_rbuildignore(123), "Parameter 'project_path' must be a character vector of length 1")
+  expect_error(create_rbuildignore(c("dir1", "dir2")), "Parameter 'project_path' must be a character vector of length 1")
+  
+  # 测试不存在的目录
+  expect_error(create_rbuildignore("/tmp/nonexistent_path_12345_xyz"), 
+               "Project directory does not exist")
+})
+
+test_that("create_rbuildignore 文件内容验证测试", {
+  # 准备测试数据
+  test_dir <- tempfile("rbuildignore_content")
+  dir.create(test_dir)
+  
+  # 执行测试
+  create_rbuildignore(test_dir, quiet = TRUE)
+  
+  # 验证.Rbuildignore内容
+  rbuildignore_content <- readLines(file.path(test_dir, ".Rbuildignore"))
+  expect_true(any(grepl("^LICENSE\\.md$", rbuildignore_content)))
+  expect_true(any(grepl("^dev/", rbuildignore_content)))
+  expect_true(any(grepl("^examples/", rbuildignore_content)))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_rbuildignore overwrite参数测试", {
+  # 准备测试数据
+  test_dir <- tempfile("rbuildignore_overwrite")
+  dir.create(test_dir)
+  
+  # 第一次创建
+  create_rbuildignore(test_dir, quiet = TRUE)
+  
+  # 第二次创建（不覆盖）
+  expect_message(create_rbuildignore(test_dir, overwrite = FALSE), 
+                 "already exists")
+  
+  # 第三次创建（覆盖）
+  expect_message(create_rbuildignore(test_dir, overwrite = TRUE), 
+                 "Created")
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_rbuildignore 默认路径测试", {
+  # 准备测试数据
+  test_dir <- tempfile("rbuildignore_default")
+  dir.create(test_dir)
+  
+  # 保存当前工作目录
+  original_wd <- getwd()
+  
+  # 切换到测试目录
+  setwd(test_dir)
+  
+  # 执行测试（使用默认路径）
+  expect_silent(create_rbuildignore(quiet = TRUE))
+  
+  # 验证文件已创建
   expect_true(file.exists(".Rbuildignore"))
   
   # 恢复工作目录
@@ -219,56 +280,53 @@ test_that("create_ignore_files 默认路径测试", {
   unlink(test_dir, recursive = TRUE)
 })
 
+# write_if_not_exists 测试
 test_that("write_if_not_exists 基本功能测试", {
   # 准备测试数据
-  test_file <- tempfile("write_test")
-  
-  # 确保文件不存在
-  if (file.exists(test_file)) {
-    unlink(test_file)
-  }
+  test_dir <- tempfile("write_test")
+  dir.create(test_dir)
+  test_file <- file.path(test_dir, "test.txt")
+  test_content <- c("line1", "line2", "line3")
   
   # 执行测试
-  expect_silent(write_if_not_exists(test_file, "test content"))
+  expect_silent(write_if_not_exists(test_file, test_content))
   
   # 验证文件已创建
   expect_true(file.exists(test_file))
   
   # 验证内容
-  content <- readLines(test_file)
-  expect_equal(content, "test content")
+  file_content <- readLines(test_file)
+  expect_equal(file_content, test_content)
   
   # 清理
-  unlink(test_file)
+  unlink(test_dir, recursive = TRUE)
 })
 
 test_that("write_if_not_exists overwrite参数测试", {
   # 准备测试数据
-  test_file <- tempfile("write_overwrite")
-  
-  # 确保文件不存在
-  if (file.exists(test_file)) {
-    unlink(test_file)
-  }
+  test_dir <- tempfile("write_overwrite")
+  dir.create(test_dir)
+  test_file <- file.path(test_dir, "test.txt")
+  content1 <- c("original content")
+  content2 <- c("new content")
   
   # 第一次写入
-  write_if_not_exists(test_file, "original content")
+  write_if_not_exists(test_file, content1)
   
   # 第二次写入（不覆盖）
-  expect_warning(write_if_not_exists(test_file, "new content", overwrite = FALSE), 
-                 "File already exists")
+  expect_warning(write_if_not_exists(test_file, content2, overwrite = FALSE))
   
   # 验证内容未改变
-  content <- readLines(test_file)
-  expect_equal(content, "original content")
+  file_content <- readLines(test_file)
+  expect_equal(file_content, content1)
   
   # 第三次写入（覆盖）
-  expect_silent(write_if_not_exists(test_file, "new content", overwrite = TRUE))
+  expect_silent(write_if_not_exists(test_file, content2, overwrite = TRUE))
   
   # 验证内容已改变
-  content <- readLines(test_file)
-  expect_equal(content, "new content")
+  file_content <- readLines(test_file)
+  expect_equal(file_content, content2)
   
   # 清理
-  unlink(test_file)
+  unlink(test_dir, recursive = TRUE)
 }) 

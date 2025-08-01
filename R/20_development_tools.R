@@ -1,9 +1,9 @@
 # 开发工具函数
 
-#' Generate R Package Development Standards Documentation
+#' Create R Package Development Standards Documentation
 #'
 #' This function automatically creates comprehensive R package development
-#' standards documentation in a specified directory. It generates a complete
+#' standards documentation in a specified directory. It creates a complete
 #' set of development guidelines, templates, and best practices.
 #'
 #' @author Songbiao Zhu \email{zhusongbiao@cimrbj.ac.cn}
@@ -15,20 +15,20 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # Generate standards documentation in default location
-#' generate_dev_standards()
+#' # Create standards documentation in default location
+#' create_dev_standards()
 #'
-#' # Generate with custom package name
-#' generate_dev_standards(package_name = "MyPackage")
+#' # Create with custom package name
+#' create_dev_standards(package_name = "MyPackage")
 #'
-#' # Generate in custom directory
-#' generate_dev_standards("./docs/standards")
+#' # Create in custom directory
+#' create_dev_standards("./docs/standards")
 #' }
-generate_dev_standards <- function(output_dir = "./dev/design", 
+create_dev_standards <- function(output_dir = "./dev/design", 
                                  package_name = NULL, 
                                  overwrite = FALSE) {
   # 参数验证
-  if (missing(output_dir) || is.null(output_dir)) {
+  if (is.null(output_dir) || (is.character(output_dir) && length(output_dir) == 1 && output_dir == "")) {
     stop("Parameter 'output_dir' is required and cannot be empty")
   }
   
@@ -130,7 +130,7 @@ generate_coding_standards <- function(output_dir, package_name, overwrite) {
     "### 函数命名\n",
     "- 使用`snake_case`命名法\n",
     "- 动词开头，描述函数功能\n",
-    "- 示例: `install_if_missing`, `create_r_project`, `export_to_excel`\n\n",
+    "- 示例: `ensure_packages`, `create_analysis_directory`, `export_to_excel`\n\n",
     "### 变量命名\n",
     "- 使用`snake_case`命名法\n",
     "- 描述性名称，避免缩写\n",
@@ -730,19 +730,29 @@ generate_templates <- function(output_dir, package_name, overwrite) {
   write_if_not_exists(file.path(templates_dir, "commit_template.txt"), commit_template, overwrite)
 }
 
-#' Create Standard Ignore Files
+#' Create .gitignore file for R projects
 #'
-#' This function creates standard `.gitignore` and `.Rbuildignore` files for R package development.
-#' These files contain common patterns that should be ignored in R projects.
-#'
-#' @author Songbiao Zhu \email{zhusongbiao@cimrbj.ac.cn}
+#' This function creates a standard .gitignore file for R projects,
+#' including common R-specific files, build artifacts, and system files
+#' that should be ignored by Git.
 #'
 #' @param project_path Character string for the project root directory (default: ".")
-#' @param overwrite Logical, whether to overwrite existing files (default: FALSE)
+#' @param overwrite Logical, whether to overwrite existing file (default: FALSE)
 #' @param quiet Logical, whether to suppress messages (default: FALSE)
 #' @return Invisible NULL
 #' @export
-create_ignore_files <- function(project_path = ".", overwrite = FALSE, quiet = FALSE) {
+#' @examples
+#' \dontrun{
+#' # Create .gitignore in current directory
+#' create_gitignore()
+#'
+#' # Create .gitignore in specific directory
+#' create_gitignore("~/my_project")
+#'
+#' # Overwrite existing file
+#' create_gitignore(overwrite = TRUE)
+#' }
+create_gitignore <- function(project_path = ".", overwrite = FALSE, quiet = FALSE) {
   
   # Parameter validation
   if (!is.character(project_path) || length(project_path) != 1) {
@@ -753,7 +763,7 @@ create_ignore_files <- function(project_path = ".", overwrite = FALSE, quiet = F
     stop("Project directory does not exist")
   }
   
-  # Standard .gitignore content for R packages
+  # Standard .gitignore content for R projects
   gitignore_content <- c(
     "# R specific files",
     ".Rhistory",
@@ -808,20 +818,8 @@ create_ignore_files <- function(project_path = ".", overwrite = FALSE, quiet = F
     "docs/"
   )
   
-  # Standard .Rbuildignore content
-  rbuildignore_content <- c(
-    "LICENSE.md",
-    "dev/",
-    "examples/",
-    "output/",
-    "temp/",
-    "*.tmp",
-    "*.log"
-  )
-  
-  # File paths
+  # File path
   gitignore_path <- file.path(project_path, ".gitignore")
-  rbuildignore_path <- file.path(project_path, ".Rbuildignore")
   
   # Create .gitignore
   if (!file.exists(gitignore_path) || overwrite) {
@@ -834,6 +832,56 @@ create_ignore_files <- function(project_path = ".", overwrite = FALSE, quiet = F
       message(".gitignore file already exists (use overwrite=TRUE to replace)")
     }
   }
+  
+  invisible(NULL)
+}
+
+#' Create .Rbuildignore file for R packages
+#'
+#' This function creates a standard .Rbuildignore file for R packages,
+#' specifying files and directories that should be excluded during
+#' R package building process.
+#'
+#' @param project_path Character string for the project root directory (default: ".")
+#' @param overwrite Logical, whether to overwrite existing file (default: FALSE)
+#' @param quiet Logical, whether to suppress messages (default: FALSE)
+#' @return Invisible NULL
+#' @export
+#' @examples
+#' \dontrun{
+#' # Create .Rbuildignore in current directory
+#' create_rbuildignore()
+#'
+#' # Create .Rbuildignore in specific directory
+#' create_rbuildignore("~/my_package")
+#'
+#' # Overwrite existing file
+#' create_rbuildignore(overwrite = TRUE)
+#' }
+create_rbuildignore <- function(project_path = ".", overwrite = FALSE, quiet = FALSE) {
+  
+  # Parameter validation
+  if (!is.character(project_path) || length(project_path) != 1) {
+    stop("Parameter 'project_path' must be a character vector of length 1")
+  }
+  
+  if (!dir.exists(project_path)) {
+    stop("Project directory does not exist")
+  }
+  
+  # Standard .Rbuildignore content
+  rbuildignore_content <- c(
+    "LICENSE.md",
+    "dev/",
+    "examples/",
+    "output/",
+    "temp/",
+    "*.tmp",
+    "*.log"
+  )
+  
+  # File path
+  rbuildignore_path <- file.path(project_path, ".Rbuildignore")
   
   # Create .Rbuildignore
   if (!file.exists(rbuildignore_path) || overwrite) {

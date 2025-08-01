@@ -1,148 +1,155 @@
 # 包管理函数
 
-#' Install packages if they are missing
+#' Ensure packages are installed with intelligent source detection
 #'
-#' This function checks if specified packages are installed and installs
-#' them automatically if they are missing. It supports packages from
-#' CRAN, Bioconductor, and GitHub repositories.
+#' This function intelligently installs packages by automatically detecting
+#' whether they are available from CRAN or Bioconductor. It first tries CRAN,
+#' and if that fails, it tries Bioconductor.
 #'
-#' @param packages Character vector of package names to install
-#' @param repos Repository URL (default: CRAN)
+#' @param packages Character vector of package names to ensure are installed
+#' @param repos Character vector of CRAN repository URLs (default: getOption("repos"))
 #' @param dependencies Logical, whether to install dependencies (default: TRUE)
-#' @param quiet Logical, whether to suppress output (default: FALSE)
-#' @param bioc Logical, whether to use Bioconductor (default: FALSE)
-#' @param github_packages Named character vector for GitHub packages (format: c("package_name" = "username/repo"))
-#' @return Invisible NULL
+#' @param quiet Logical, whether to suppress messages (default: FALSE)
+#' @return Invisible list with installation results
 #' @export
 #' @examples
 #' \dontrun{
-#' # Install CRAN packages if missing
-#' install_if_missing(c("dplyr", "ggplot2"))
+#' # Install packages with automatic source detection
+#' ensure_packages(c("dplyr", "ggplot2", "Biobase", "limma"))
 #'
-#' # Install with custom repository
-#' install_if_missing("devtools", repos = "https://cran.rstudio.com/")
+#' # Silent installation
+#' ensure_packages(c("dplyr", "ggplot2"), quiet = TRUE)
 #'
-#' # Install Bioconductor packages
-#' install_if_missing(c("Biobase", "limma"), bioc = TRUE)
-#'
-#' # Install GitHub packages
-#' install_if_missing("devtools")  # First install devtools
-#' install_if_missing(github_packages = c("tidyverse" = "tidyverse/tidyverse"))
-#'
-#' # Mixed installation
-#' install_if_missing(
-#'   packages = c("dplyr", "ggplot2"),
-#'   bioc = TRUE,
-#'   github_packages = c("rmarkdown" = "rstudio/rmarkdown")
-#' )
+#' # Without dependencies
+#' ensure_packages(c("dplyr"), dependencies = FALSE)
 #' }
-install_if_missing <- function(packages = NULL, repos = getOption("repos"), 
-                              dependencies = TRUE, quiet = FALSE, bioc = FALSE,
-                              github_packages = NULL) {
-  # Parameter validation
-  if (is.null(packages) && is.null(github_packages)) {
+ensure_packages <- function(packages = NULL, repos = getOption("repos"), 
+                           dependencies = TRUE, quiet = FALSE) {
+  
+  # 参数验证
+  if (is.null(packages) || length(packages) == 0) {
     stop("Parameter 'packages' is required and cannot be empty")
   }
   
-  # 处理CRAN和Bioconductor包
-  if (!is.null(packages)) {
-    if (!is.character(packages) || length(packages) == 0) {
-      stop("Parameter 'packages' must be a non-empty character vector")
+  if (!is.character(packages)) {
+    stop("Parameter 'packages' must be a character vector")
+  }
+  
+  # 检查哪些包未安装
+  missing_packages <- packages[!packages %in% installed.packages()[,"Package"]]
+  
+  if (length(missing_packages) == 0) {
+    if (!quiet) message("All packages are already installed.")
+    return(invisible(list(success = character(0), failed = character(0))))
+  }
+  
+  if (!quiet) {
+    message("Installing missing packages: ", paste(missing_packages, collapse = ", "))
+  }
+  
+  # 安装结果跟踪
+  installation_results <- list(
+    success = character(0),
+    failed = character(0)
+  )
+  
+  # 对每个缺失的包进行智能安装
+  for (pkg in missing_packages) {
+    # 先尝试CRAN
+    cran_success <- try_install_cran(pkg, repos, dependencies, quiet)
+    
+    if (cran_success) {
+      installation_results$success <- c(installation_results$success, pkg)
+      next
     }
     
-    # 检查哪些包未安装
-    missing_packages <- packages[!packages %in% installed.packages()[,"Package"]]
+    # 如果CRAN失败，尝试Bioconductor
+    bioc_success <- try_install_bioc(pkg, dependencies, quiet)
     
-    if (length(missing_packages) > 0) {
-      if (!quiet) {
-        message("Installing missing packages: ", paste(missing_packages, collapse = ", "))
-      }
-      
-      # 安装Bioconductor包
-      if (bioc) {
-        if (!quiet) message("Installing Bioconductor packages...")
-        
-        # 检查BiocManager是否已安装
-        if (!requireNamespace("BiocManager", quietly = TRUE)) {
-          if (!quiet) message("Installing BiocManager...")
-          install.packages("BiocManager", repos = repos, quiet = quiet)
-        }
-        
-        # 使用BiocManager安装包
-        BiocManager::install(missing_packages, dependencies = dependencies, quiet = quiet)
-      } else {
-        # 安装CRAN包
-        if (!quiet) message("Installing CRAN packages...")
-        utils::install.packages(missing_packages, repos = repos, 
-                              dependencies = dependencies, quiet = quiet)
-      }
-      
-      if (!quiet) {
-        message("Package installation completed.")
-      }
+    if (bioc_success) {
+      installation_results$success <- c(installation_results$success, pkg)
     } else {
-      if (!quiet) {
-        message("All packages are already installed.")
-      }
+      installation_results$failed <- c(installation_results$failed, pkg)
     }
   }
   
-  # 处理GitHub包
-  if (!is.null(github_packages)) {
-    if (!is.character(github_packages) || length(github_packages) == 0) {
-      stop("Parameter 'github_packages' must be a non-empty character vector")
+  # 输出安装结果摘要
+  if (!quiet) {
+    if (length(installation_results$success) > 0) {
+      message("Successfully installed: ", paste(installation_results$success, collapse = ", "))
     }
     
-    # 检查devtools是否已安装
-    if (!requireNamespace("devtools", quietly = TRUE)) {
-      if (!quiet) message("Installing devtools for GitHub package installation...")
-      install.packages("devtools", repos = repos, quiet = quiet)
-    }
-    
-    # 检查哪些GitHub包未安装
-    github_pkg_names <- names(github_packages)
-    missing_github_packages <- github_pkg_names[!github_pkg_names %in% installed.packages()[,"Package"]]
-    
-    if (length(missing_github_packages) > 0) {
-      if (!quiet) {
-        message("Installing missing GitHub packages: ", paste(missing_github_packages, collapse = ", "))
-      }
-      
-      for (pkg_name in missing_github_packages) {
-        repo <- github_packages[pkg_name]
-        if (!quiet) message("Installing ", pkg_name, " from ", repo, "...")
-        
-        tryCatch({
-          devtools::install_github(repo, quiet = quiet, dependencies = dependencies)
-        }, error = function(e) {
-          if (!quiet) {
-            warning("Failed to install GitHub package '", pkg_name, "': ", e$message)
-          }
-        })
-      }
-      
-      if (!quiet) {
-        message("GitHub package installation completed.")
-      }
-    } else {
-      if (!quiet) {
-        message("All GitHub packages are already installed.")
-      }
+    if (length(installation_results$failed) > 0) {
+      warning("Failed to install: ", paste(installation_results$failed, collapse = ", "))
     }
   }
   
-  invisible(NULL)
+  # 返回安装结果
+  invisible(installation_results)
 }
+
+#' Try to install a package from CRAN
+#' @keywords internal
+try_install_cran <- function(pkg, repos, dependencies, quiet) {
+  tryCatch({
+    if (!quiet) message("Trying to install '", pkg, "' from CRAN...")
+    
+    # 尝试安装
+    utils::install.packages(pkg, repos = repos, 
+                          dependencies = dependencies, 
+                          quiet = quiet)
+    
+    # 验证安装是否成功
+    if (pkg %in% installed.packages()[,"Package"]) {
+      if (!quiet) message("Successfully installed '", pkg, "' from CRAN")
+      return(TRUE)
+    } else {
+      return(FALSE)
+    }
+  }, error = function(e) {
+    if (!quiet) message("Failed to install '", pkg, "' from CRAN: ", e$message)
+    return(FALSE)
+  })
+}
+
+#' Try to install a package from Bioconductor
+#' @keywords internal
+try_install_bioc <- function(pkg, dependencies, quiet) {
+  tryCatch({
+    if (!quiet) message("Trying to install '", pkg, "' from Bioconductor...")
+    
+    # 检查BiocManager是否已安装
+    if (!requireNamespace("BiocManager", quietly = TRUE)) {
+      if (!quiet) message("Installing BiocManager...")
+      utils::install.packages("BiocManager", quiet = quiet)
+    }
+    
+    # 尝试安装Bioconductor包
+    BiocManager::install(pkg, dependencies = dependencies, quiet = quiet)
+    
+    # 验证安装是否成功
+    if (pkg %in% installed.packages()[,"Package"]) {
+      if (!quiet) message("Successfully installed '", pkg, "' from Bioconductor")
+      return(TRUE)
+    } else {
+      return(FALSE)
+    }
+  }, error = function(e) {
+    if (!quiet) message("Failed to install '", pkg, "' from Bioconductor: ", e$message)
+    return(FALSE)
+  })
+}
+
+
 
 #' Install packages from multiple sources
 #'
 #' This function provides a convenient way to install packages from different
-#' sources (CRAN, Bioconductor, GitHub) in a single call. It automatically
-#' handles the installation of required tools (BiocManager, devtools) as needed.
+#' sources (CRAN, Bioconductor) in a single call. It automatically
+#' handles the installation of required tools (BiocManager) as needed.
 #'
 #' @param cran_packages Character vector of CRAN package names
 #' @param bioc_packages Character vector of Bioconductor package names
-#' @param github_packages Named character vector for GitHub packages (format: c("package_name" = "username/repo"))
 #' @param repos Repository URL for CRAN (default: getOption("repos"))
 #' @param dependencies Logical, whether to install dependencies (default: TRUE)
 #' @param quiet Logical, whether to suppress output (default: FALSE)
@@ -151,26 +158,22 @@ install_if_missing <- function(packages = NULL, repos = getOption("repos"),
 #' @examples
 #' \dontrun{
 #' # Install packages from different sources
-#' install_from_sources(
+#' install_from_multiple_sources(
 #'   cran_packages = c("dplyr", "ggplot2", "readr"),
-#'   bioc_packages = c("Biobase", "limma"),
-#'   github_packages = c("rmarkdown" = "rstudio/rmarkdown")
+#'   bioc_packages = c("Biobase", "limma")
 #' )
 #'
 #' # Install only CRAN packages
-#' install_from_sources(cran_packages = c("dplyr", "ggplot2"))
+#' install_from_multiple_sources(cran_packages = c("dplyr", "ggplot2"))
 #'
 #' # Install only Bioconductor packages
-#' install_from_sources(bioc_packages = c("Biobase", "limma"))
-#'
-#' # Install only GitHub packages
-#' install_from_sources(github_packages = c("tidyverse" = "tidyverse/tidyverse"))
+#' install_from_multiple_sources(bioc_packages = c("Biobase", "limma"))
 #' }
-install_from_sources <- function(cran_packages = NULL, bioc_packages = NULL, 
-                                github_packages = NULL, repos = getOption("repos"),
+install_from_multiple_sources <- function(cran_packages = NULL, bioc_packages = NULL, 
+                                repos = getOption("repos"),
                                 dependencies = TRUE, quiet = FALSE) {
   # Parameter validation
-  if (is.null(cran_packages) && is.null(bioc_packages) && is.null(github_packages)) {
+  if (is.null(cran_packages) && is.null(bioc_packages)) {
     stop("At least one package source must be specified")
   }
   
@@ -180,23 +183,18 @@ install_from_sources <- function(cran_packages = NULL, bioc_packages = NULL,
   
   # 安装CRAN包
   if (!is.null(cran_packages)) {
-          if (!quiet) message("\n1. Installing CRAN packages...")
-    install_if_missing(packages = cran_packages, repos = repos, 
-                      dependencies = dependencies, quiet = quiet, bioc = FALSE)
+    if (!quiet) message("\n1. Installing CRAN packages...")
+    ensure_packages(packages = cran_packages, repos = repos, 
+                    dependencies = dependencies, quiet = quiet)
   }
   
   # 安装Bioconductor包
   if (!is.null(bioc_packages)) {
-          if (!quiet) message("\n2. Installing Bioconductor packages...")
-    install_if_missing(packages = bioc_packages, repos = repos, 
-                      dependencies = dependencies, quiet = quiet, bioc = TRUE)
-  }
-  
-  # 安装GitHub包
-  if (!is.null(github_packages)) {
-          if (!quiet) message("\n3. Installing GitHub packages...")
-    install_if_missing(github_packages = github_packages, repos = repos, 
-                      dependencies = dependencies, quiet = quiet)
+    if (!quiet) message("\n2. Installing Bioconductor packages...")
+    # 直接使用BiocManager安装Bioconductor包
+    for (pkg in bioc_packages) {
+      try_install_bioc(pkg, dependencies, quiet)
+    }
   }
   
   if (!quiet) {
@@ -224,14 +222,14 @@ install_from_sources <- function(cran_packages = NULL, bioc_packages = NULL,
 #' # Load with verbose output
 #' load_packages(c("dplyr", "ggplot2"), quiet = FALSE)
 #' }
-load_packages <- function(packages, quiet = TRUE) {
+load_packages <- function(packages = NULL, quiet = TRUE) {
   # Parameter validation
-  if (missing(packages) || is.null(packages)) {
+  if (is.null(packages) || length(packages) == 0) {
     stop("Parameter 'packages' is required and cannot be empty")
   }
   
-  if (!is.character(packages) || length(packages) == 0) {
-    stop("Parameter 'packages' must be a non-empty character vector")
+  if (!is.character(packages)) {
+    stop("Parameter 'packages' must be a character vector")
   }
   
   loaded_status <- logical(length(packages))
@@ -285,14 +283,14 @@ load_packages <- function(packages, quiet = TRUE) {
 #' versions <- check_package_versions(c("dplyr", "ggplot2"), required)
 #' print(versions)
 #' }
-check_package_versions <- function(packages, required_versions = NULL) {
+check_package_versions <- function(packages = NULL, required_versions = NULL) {
   # Parameter validation
-  if (missing(packages) || is.null(packages)) {
+  if (is.null(packages) || length(packages) == 0) {
     stop("Parameter 'packages' is required and cannot be empty")
   }
   
-  if (!is.character(packages) || length(packages) == 0) {
-    stop("Parameter 'packages' must be a non-empty character vector")
+  if (!is.character(packages)) {
+    stop("Parameter 'packages' must be a character vector")
   }
   
   # 获取已安装包信息

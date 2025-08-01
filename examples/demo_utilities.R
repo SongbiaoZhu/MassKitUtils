@@ -8,9 +8,9 @@ library(MassKitUtils)
 
 cat("=== Package Management Examples ===\n")
 
-# Install packages if missing
+# Install packages if missing (supports CRAN and Bioconductor)
 cat("Installing packages if missing...\n")
-install_if_missing(c("dplyr", "ggplot2", "readr"))
+ensure_packages(c("dplyr", "ggplot2", "readr"))
 
 # Load packages with error handling
 cat("Loading packages...\n")
@@ -27,7 +27,7 @@ print(version_info)
 cat("\n=== Project Management Examples ===\n")
 
 # Create a new R project (commented out to avoid creating during demo)
-# create_r_project("demo_project", setup_env = TRUE)
+# create_analysis_directory("demo_analysis")
 
 # 文件管理示例 ===
 
@@ -78,14 +78,15 @@ export_to_excel(sample_data, "output/demo/minimal_export.xlsx",
 
 cat("\n=== Development Tools Examples ===\n")
 
-# Generate development standards documentation
-cat("Generating development standards...\n")
-generate_dev_standards()
-cat("Development standards documentation generated in ./dev/design directory\n")
+# Create development standards documentation
+cat("Creating development standards...\n")
+create_dev_standards("./dev/design")
+cat("Development standards documentation created in ./dev/design directory\n")
 
 # Create ignore files
 cat("Creating ignore files...\n")
-create_ignore_files()
+create_gitignore()
+create_rbuildignore()
 cat("Ignore files created\n")
 
 # 总结 ===
@@ -96,6 +97,6 @@ cat("✓ File management functions tested\n")
 cat("✓ Data export functions tested\n")
 cat("✓ Development tools functions tested\n")
 cat("✓ Excel files created in output/demo/ directory\n")
-cat("✓ Development standards generated in ./dev/design directory\n")
+cat("✓ Development standards created in ./dev/design directory\n")
 cat("✓ Ignore files created\n")
 cat("\nDemo completed successfully!\n") 

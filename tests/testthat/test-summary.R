@@ -8,11 +8,11 @@ test_that("测试覆盖总结", {
   expect_true(TRUE) # 占位符测试
   
   cat("\n=== MassKitUtils 测试覆盖总结 ===\n")
-  cat("✓ 包管理功能测试: install_if_missing, load_packages, check_package_versions\n")
-  cat("✓ 项目管理功能测试: create_r_project\n")
+  cat("✓ 包管理功能测试: ensure_packages, load_packages, check_package_versions\n")
+  cat("✓ 项目管理功能测试: create_analysis_directory\n")
   cat("✓ 文件管理功能测试: ensure_directory\n")
   cat("✓ 数据导出功能测试: export_to_excel\n")
-  cat("✓ 开发工具功能测试: generate_dev_standards, create_ignore_files\n")
+  cat("✓ 开发工具功能测试: create_dev_standards, create_gitignore, create_rbuildignore\n")
   cat("✓ 集成测试: 完整工作流程测试\n")
   cat("✓ 错误处理测试: 参数验证和边界条件\n")
   cat("✓ 性能测试: 大数据集处理\n")

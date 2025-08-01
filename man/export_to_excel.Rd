@@ -94,5 +94,5 @@ export_to_excel(mtcars, "cars_with_summary.xlsx",
 
 }
 \seealso{
-\code{\link{install_if_missing}}, \code{\link{create_r_project}}
+\code{\link{ensure_packages}}, \code{\link{create_analysis_directory}}
 }

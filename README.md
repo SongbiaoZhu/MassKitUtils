@@ -63,17 +63,21 @@ ls("package:MassKitUtils")
 ```r
 library(MassKitUtils)
 
-# 创建新项目
-create_r_project("my_analysis")
+# 创建分析目录
+create_analysis_directory("my_analysis")
 
-# 安装依赖包
-install_if_missing(c("dplyr", "ggplot2", "readr"))
+# 安装依赖包（支持CRAN和Bioconductor）
+ensure_packages(c("dplyr", "ggplot2", "readr"))
 
 # 导出数据到Excel
 export_to_excel(mtcars, "output/results.xlsx")
 
-# 生成开发标准
-generate_dev_standards("dev/")
+# 创建开发标准
+create_dev_standards("dev/")
+
+# 创建忽略文件
+create_gitignore()
+create_rbuildignore()
 ```
 
 ## 📚 文档

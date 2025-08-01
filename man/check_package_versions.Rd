@@ -4,7 +4,7 @@
 \alias{check_package_versions}
 \title{Check package versions}
 \usage{
-check_package_versions(packages, required_versions = NULL)
+check_package_versions(packages = NULL, required_versions = NULL)
 }
 \arguments{
 \item{packages}{Character vector of package names to check}

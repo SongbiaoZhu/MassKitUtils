@@ -57,7 +57,7 @@
 #'                add_summary = TRUE)
 #' }
 #'
-#' @seealso \code{\link{install_if_missing}}, \code{\link{create_r_project}}
+#' @seealso \code{\link{ensure_packages}}, \code{\link{create_analysis_directory}}
 #' @export
 export_to_excel <- function(data, filename, sheet_name = "Data", 
                            header_style = "default",

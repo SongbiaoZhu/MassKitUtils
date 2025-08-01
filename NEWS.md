@@ -7,13 +7,13 @@ MassKitUtils 是一个综合性的R开发工具包，旨在简化R开发工作�
 ## ✨ 主要功能
 
 ### 📦 包管理功能（增强版）
-- **多源包安装**: 支持CRAN、Bioconductor、GitHub包安装
-- **智能检测**: 自动检查包是否已安装，避免重复安装
+- **多源包安装**: 支持CRAN、Bioconductor包安装
+- **智能检测**: 自动检测包源（CRAN/Bioconductor），智能安装
 - **批量操作**: 一次性安装和加载多个包
 - **版本管理**: 检查包版本信息
 
 ### 🏗️ 项目管理功能
-- **标准化项目创建**: 自动生成完整的R项目结构
+- **标准化分析目录创建**: 自动生成完整的分析目录结构
 - **目录模板**: 包含R/, data/, docs/, tests/, vignettes/, inst/等标准目录
 - **配置文件**: 自动创建README.md, .gitignore, DESCRIPTION, NAMESPACE
 
@@ -29,7 +29,7 @@ MassKitUtils 是一个综合性的R开发工具包，旨在简化R开发工作�
 
 ### 🛠️ 开发工具功能
 - **开发标准生成**: 自动生成R包开发标准文档
-- **忽略文件创建**: 创建标准的.gitignore和.Rbuildignore
+- **忽略文件创建**: 分别创建标准的.gitignore和.Rbuildignore文件
 - **智能文件写入**: 避免覆盖现有文件
 
 ## 🚀 快速开始
@@ -45,36 +45,33 @@ devtools::install_github("SongbiaoZhu/MassKitUtils")
 ```r
 library(MassKitUtils)
 
-# 创建新项目
-create_r_project("my_analysis")
+# 创建分析目录
+create_analysis_directory("my_analysis")
 
 # 安装依赖包（支持多源）
-install_if_missing(c("dplyr", "ggplot2", "readr"))
+ensure_packages(c("dplyr", "ggplot2", "readr"))
 
 # 导出数据到Excel
 export_to_excel(mtcars, "output/results.xlsx")
 
-# 生成开发标准
-generate_dev_standards("dev/")
+# 创建开发标准
+create_dev_standards("dev/")
 ```
 
 ## 🔄 多源包安装示例
 
 ```r
 # CRAN包安装
-install_if_missing(c("dplyr", "ggplot2"))
+ensure_packages(c("dplyr", "ggplot2"))
 
 # Bioconductor包安装
-install_if_missing(c("Biobase", "limma"), bioc = TRUE)
-
-# GitHub包安装
-install_if_missing(github_packages = c("rmarkdown" = "rstudio/rmarkdown"))
+# 注意：ensure_packages 会自动尝试从CRAN和Bioconductor安装包
+ensure_packages(c("Biobase", "limma"))
 
 # 混合安装
-install_from_sources(
+install_from_multiple_sources(
   cran_packages = c("dplyr", "ggplot2"),
-  bioc_packages = c("Biobase", "limma"),
-  github_packages = c("rmarkdown" = "rstudio/rmarkdown")
+  bioc_packages = c("Biobase", "limma")
 )
 ```
 

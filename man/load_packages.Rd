@@ -4,7 +4,7 @@
 \alias{load_packages}
 \title{Load packages with error handling}
 \usage{
-load_packages(packages, quiet = TRUE)
+load_packages(packages = NULL, quiet = TRUE)
 }
 \arguments{
 \item{packages}{Character vector of package names to load}
