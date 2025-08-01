@@ -32,7 +32,7 @@ management, project creation, file management, and data export.
 \section{Project Management}{
 
 \itemize{
-\item \code{\link{create_analysis_directory}}: Create a new analysis directory with standard structure
+\item \code{\link{setup_analysis_structure}}: Setup standard analysis directory structure in current directory
 }
 }
 
@@ -68,7 +68,7 @@ check_package_versions(c("dplyr", "ggplot2"))
 
 # Project management
 temp_dir <- tempdir()
-create_analysis_directory("my_analysis", path = temp_dir)
+setup_analysis_structure()
 
 # File management
 ensure_directory("output/figures")

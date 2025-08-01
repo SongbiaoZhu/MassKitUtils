@@ -3,21 +3,25 @@
 
 test_that("完整工作流程测试", {
   # 准备测试数据
-  test_project_name <- "integration_test_project"
-  test_path <- tempdir()
-  test_project_path <- file.path(test_path, test_project_name)
+  test_dir <- tempfile("integration_test")
+  dir.create(test_dir)
   
-  # 确保测试目录不存在
-  if (dir.exists(test_project_path)) {
-    unlink(test_project_path, recursive = TRUE)
-  }
+  # 切换到测试目录
+  old_wd <- getwd()
+  setwd(test_dir)
+  on.exit({
+    setwd(old_wd)
+    unlink(test_dir, recursive = TRUE)
+  })
   
-  # 步骤1: 创建R项目
-  expect_silent(create_analysis_directory(test_project_name, test_path, quiet = TRUE))
-  expect_true(dir.exists(test_project_path))
+  # 步骤1: 设置分析目录结构
+  expect_silent(setup_analysis_structure(quiet = TRUE))
+  expect_true(dir.exists("data/raw"))
+  expect_true(dir.exists("scripts"))
+  expect_true(dir.exists("output"))
   
   # 步骤2: 确保输出目录存在
-  output_dir <- file.path(test_project_path, "output")
+  output_dir <- "output"
   expect_silent(ensure_directory(output_dir))
   expect_true(dir.exists(output_dir))
   
@@ -40,17 +44,14 @@ test_that("完整工作流程测试", {
   expect_true(file.exists(excel_file))
   
   # 步骤5: 创建开发标准文档
-  dev_dir <- file.path(test_project_path, "dev")
-  expect_silent(create_dev_standards(dev_dir, package_name = test_project_name))
+  dev_dir <- "dev"
+  expect_silent(create_dev_standards(dev_dir, package_name = "integration_test"))
   expect_true(dir.exists(dev_dir))
   
   # 步骤6: 检查包版本
   version_info <- check_package_versions(test_packages)
   expect_true(is.data.frame(version_info))
   expect_equal(nrow(version_info), length(test_packages))
-  
-  # 清理
-  unlink(test_project_path, recursive = TRUE)
 })
 
 test_that("数据导出工作流程测试", {
@@ -167,8 +168,22 @@ expect_silent(create_rbuildignore(test_dir, quiet = TRUE))
 test_that("错误处理集成测试", {
   # 测试各种错误情况的组合
   
-  # 测试无效的项目创建
-  expect_error(create_analysis_directory("", "/invalid/path"), "Parameter 'project_name' must be a non-empty character vector")
+  # 测试无效的项目创建（使用新函数）
+  test_dir <- tempfile("error_test")
+  dir.create(test_dir)
+  old_wd <- getwd()
+  setwd(test_dir)
+  on.exit({
+    setwd(old_wd)
+    unlink(test_dir, recursive = TRUE)
+  })
+  
+  # 测试在不可写目录中的错误
+  if (.Platform$OS.type != "windows") {
+    Sys.chmod(".", "0444")
+    expect_error(setup_analysis_structure(), "Current directory is not writable")
+    Sys.chmod(".", "0755")
+  }
   
   # 测试无效的目录创建
   if (.Platform$OS.type == "windows") {
@@ -258,12 +273,14 @@ test_that("并发操作测试", {
     expect_true(dir.exists(dir_path))
   }
   
-  # 并发创建项目
-  project_names <- paste0("project_", 1:2)
-  for (i in seq_along(project_names)) {
-    project_path <- file.path(test_dirs[i], project_names[i])
-    expect_silent(create_analysis_directory(project_names[i], test_dirs[i], quiet = TRUE))
-    expect_true(dir.exists(project_path))
+  # 并发设置分析结构
+  for (i in seq_along(test_dirs[1:2])) {
+    old_wd <- getwd()
+    setwd(test_dirs[i])
+    expect_silent(setup_analysis_structure(quiet = TRUE))
+    expect_true(dir.exists("data/raw"))
+    expect_true(dir.exists("scripts"))
+    setwd(old_wd)
   }
   
   # 清理
