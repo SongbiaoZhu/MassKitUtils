@@ -2,7 +2,7 @@
 
 ![R](https://img.shields.io/badge/R-%3E%3D%203.5.0-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
-![Version](https://img.shields.io/badge/Version-1.0.0-orange.svg)
+![Version](https://img.shields.io/badge/Version-2.0.0-orange.svg)
 
 MassKitUtils 是一个综合性的R开发工具包，提供包管理、项目创建、文件操作和数据导出等功能，旨在简化R开发工作流程并提高生产力。
 
@@ -49,7 +49,7 @@ devtools::install_github("SongbiaoZhu/MassKitUtils")
 #### 从本地文件安装
 ```r
 # 安装本地构建的包
-install.packages("MassKitUtils_1.0.0.tar.gz", repos = NULL, type = "source")
+install.packages("MassKitUtils_2.0.0.tar.gz", repos = NULL, type = "source")
 ```
 
 #### 验证安装
