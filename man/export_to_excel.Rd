@@ -30,18 +30,18 @@ export_to_excel(
 
 \item{header_style}{Character string for header style. Options:
 \itemize{
-\item "default" - Gray background, centered, bold
-\item "bold" - Bold text only
-\item "colored" - Blue background, white text, centered
-\item "minimal" - Bold text only
+  \item "default" - Gray background, centered, bold
+  \item "bold" - Bold text only
+  \item "colored" - Blue background, white text, centered
+  \item "minimal" - Bold text only
 }}
 
 \item{table_style}{Character string for table style. Options:
 \itemize{
-\item "default" - Top and bottom borders
-\item "bordered" - Full borders on all cells
-\item "striped" - Alternating row colors
-\item "minimal" - No borders
+  \item "default" - Top and bottom borders
+  \item "bordered" - Full borders on all cells
+  \item "striped" - Alternating row colors
+  \item "minimal" - No borders
 }}
 
 \item{header_bg_color}{Character string for header background color (hex code)}

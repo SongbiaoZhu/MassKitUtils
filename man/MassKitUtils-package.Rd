@@ -12,50 +12,51 @@ management, project creation, file management, and data export.
 \section{Key Features}{
 
 \itemize{
-\item Package management with automatic installation and loading
-\item Project creation with standardized directory structure
-\item File system operations with error handling
-\item Excel export with comprehensive formatting options
+  \item Package management with automatic installation and loading
+  \item Project creation with standardized directory structure
+  \item File system operations with error handling
+  \item Excel export with comprehensive formatting options
 }
 }
 
 \section{Package Management}{
 
 \itemize{
-\item \code{\link{ensure_packages}}: Ensure packages are installed with intelligent source detection (CRAN/Bioconductor)
-\item \code{\link{load_packages}}: Load packages with error handling
-\item \code{\link{check_package_versions}}: Check package versions
-\item \code{\link{install_from_multiple_sources}}: Install packages from multiple sources (CRAN/Bioconductor)
+  \item \code{\link{ensure_packages}}: Ensure packages are installed with intelligent source detection (CRAN/Bioconductor)
+  \item \code{\link{load_packages}}: Load packages with error handling
+  \item \code{\link{check_package_versions}}: Check package versions
+  \item \code{\link{install_from_multiple_sources}}: Install packages from multiple sources (CRAN/Bioconductor)
 }
 }
 
 \section{Project Management}{
 
 \itemize{
-\item \code{\link{setup_analysis_structure}}: Setup standard analysis directory structure in current directory
+  \item \code{\link{init_r_project}}: Initialize R project for data analysis with complete structure
+  \item \code{\link{setup_analysis_structure}}: Setup standard analysis directory structure in current directory
 }
 }
 
 \section{File Management}{
 
 \itemize{
-\item \code{\link{ensure_directory}}: Ensure directory exists, create if it doesn't
+  \item \code{\link{ensure_directory}}: Ensure directory exists, create if it doesn't
 }
 }
 
 \section{Data Export}{
 
 \itemize{
-\item \code{\link{export_to_excel}}: Export data to Excel with formatting options
+  \item \code{\link{export_to_excel}}: Export data to Excel with formatting options
 }
 }
 
 \section{Development Tools}{
 
 \itemize{
-\item \code{\link{create_dev_standards}}: Create comprehensive R package development standards documentation
-\item \code{\link{create_gitignore}}: Create standard .gitignore file for R projects
-\item \code{\link{create_rbuildignore}}: Create standard .Rbuildignore file for R packages
+  \item \code{\link{create_dev_standards}}: Create comprehensive R package development standards documentation
+  \item \code{\link{create_gitignore}}: Create standard .gitignore file for R projects
+  \item \code{\link{create_rbuildignore}}: Create standard .Rbuildignore file for R packages
 }
 }
 
@@ -68,6 +69,7 @@ check_package_versions(c("dplyr", "ggplot2"))
 
 # Project management
 temp_dir <- tempdir()
+init_r_project(temp_dir) # New example for init_r_project
 setup_analysis_structure()
 
 # File management

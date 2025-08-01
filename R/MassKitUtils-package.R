@@ -23,6 +23,7 @@
 #'
 #' @section Project Management:
 #' \itemize{
+#'   \item \code{\link{init_r_project}}: Initialize R project for data analysis with complete structure
 #'   \item \code{\link{setup_analysis_structure}}: Setup standard analysis directory structure in current directory
 #' }
 #'
@@ -54,6 +55,7 @@
 #' 
 #' # Project management
 #' temp_dir <- tempdir()
+#' init_r_project(temp_dir) # New example for init_r_project
 #' setup_analysis_structure()
 #' 
 #' # File management
