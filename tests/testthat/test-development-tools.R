@@ -330,3 +330,100 @@ test_that("write_if_not_exists overwrite参数测试", {
   # 清理
   unlink(test_dir, recursive = TRUE)
 }) 
+
+# create_project_standards 测试
+test_that("create_project_standards 基本功能测试", {
+  # 准备测试数据
+  test_dir <- tempfile("project_standards")
+  dir.create(test_dir)
+  
+  # 执行测试
+  expect_silent(create_project_standards(test_dir))
+  
+  # 验证文件已创建
+  expect_true(file.exists(file.path(test_dir, "01_overview.md")))
+  expect_true(file.exists(file.path(test_dir, "02_data_workflow.md")))
+  expect_true(file.exists(file.path(test_dir, "03_analysis_standards.md")))
+  expect_true(file.exists(file.path(test_dir, "04_reproducibility.md")))
+  expect_true(dir.exists(file.path(test_dir, "templates")))
+  
+  # 验证模板文件
+  expect_true(file.exists(file.path(test_dir, "templates", "data_dictionary_template.md")))
+  expect_true(file.exists(file.path(test_dir, "templates", "analysis_report_template.md")))
+  expect_true(file.exists(file.path(test_dir, "templates", "script_template.R")))
+  expect_true(file.exists(file.path(test_dir, "templates", "config_template.R")))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_project_standards 参数验证测试", {
+  # 测试NULL参数
+  expect_error(create_project_standards(NULL), "Parameter 'output_dir' is required and cannot be empty")
+  
+  # 测试非字符向量
+  expect_error(create_project_standards(123), "Parameter 'output_dir' must be a character vector of length 1")
+  expect_error(create_project_standards(c("dir1", "dir2")), "Parameter 'output_dir' must be a character vector of length 1")
+})
+
+test_that("create_project_standards 文件内容验证测试", {
+  # 准备测试数据
+  test_dir <- tempfile("project_standards_content")
+  dir.create(test_dir)
+  
+  # 执行测试
+  create_project_standards(test_dir)
+  
+  # 验证overview文件内容
+  overview_content <- readLines(file.path(test_dir, "01_overview.md"))
+  expect_true(any(grepl("数据分析项目", overview_content)))
+  
+  # 验证data_workflow文件内容
+  workflow_content <- readLines(file.path(test_dir, "02_data_workflow.md"))
+  expect_true(any(grepl("数据工作流程", workflow_content)))
+  
+  # 验证analysis_standards文件内容
+  analysis_content <- readLines(file.path(test_dir, "03_analysis_standards.md"))
+  expect_true(any(grepl("分析标准", analysis_content)))
+  
+  # 验证reproducibility文件内容
+  repro_content <- readLines(file.path(test_dir, "04_reproducibility.md"))
+  expect_true(any(grepl("可重现性", repro_content)))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_project_standards overwrite参数测试", {
+  # 准备测试数据
+  test_dir <- tempfile("project_standards_overwrite")
+  dir.create(test_dir)
+  
+  # 第一次创建
+  create_project_standards(test_dir)
+  
+  # 第二次创建（不覆盖）- 会产生警告
+  expect_warning(create_project_standards(test_dir, overwrite = FALSE))
+  
+  # 第三次创建（覆盖）- 静默执行
+  expect_silent(create_project_standards(test_dir, overwrite = TRUE))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+})
+
+test_that("create_project_standards 项目名称参数测试", {
+  # 准备测试数据
+  test_dir <- tempfile("project_standards_name")
+  dir.create(test_dir)
+  
+  # 执行测试
+  create_project_standards(test_dir, project_name = "TestProject")
+  
+  # 验证文件内容包含项目名称
+  overview_content <- readLines(file.path(test_dir, "01_overview.md"))
+  expect_true(any(grepl("TestProject", overview_content)))
+  
+  # 清理
+  unlink(test_dir, recursive = TRUE)
+}) 

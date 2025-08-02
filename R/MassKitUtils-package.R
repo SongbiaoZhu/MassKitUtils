@@ -40,6 +40,7 @@
 #' @section Development Tools:
 #' \itemize{
 #'   \item \code{\link{create_dev_standards}}: Create comprehensive R package development standards documentation
+#'   \item \code{\link{create_project_standards}}: Create data analysis project standards documentation
 #'   \item \code{\link{create_gitignore}}: Create standard .gitignore file for R projects
 #'   \item \code{\link{create_rbuildignore}}: Create standard .Rbuildignore file for R packages
 #' }

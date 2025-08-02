@@ -13,9 +13,9 @@ create_dev_standards(
 \arguments{
 \item{output_dir}{Character string for the output directory (default: "./dev/design")}
 
-\item{package_name}{Character string for the package name (optional)}
-
 \item{overwrite}{Logical, whether to overwrite existing files (default: FALSE)}
+
+\item{project_name}{Character string for the project name (optional)}
 }
 \value{
 Invisible NULL
