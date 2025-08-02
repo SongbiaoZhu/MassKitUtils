@@ -1,6 +1,6 @@
 Package: MassKitUtils
 Title: R Development and Data Export Utilities
-Version: 2.3.1
+Version: 2.4.0
 Authors@R: 
     person("Songbiao", "Zhu", , "zhusongbiao@cimrbj.ac.cn", role = c("aut", "cre"))
 Author: Songbiao Zhu [aut, cre]
@@ -19,7 +19,9 @@ Imports:
     openxlsx,
     dplyr,
     here,
-    usethis
+    usethis,
+    ggplot2,
+    scales
 Suggests:
     testthat (>= 3.0.0),
     knitr,

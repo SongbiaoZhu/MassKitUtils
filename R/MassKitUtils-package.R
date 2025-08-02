@@ -11,6 +11,7 @@
 #'   \item Project creation with standardized directory structure
 #'   \item File system operations with error handling
 #'   \item Excel export with comprehensive formatting options
+#'   \item Scientific publication-ready visualization themes
 #' }
 #'
 #' @section Package Management:
@@ -35,6 +36,12 @@
 #' @section Data Export:
 #' \itemize{
 #'   \item \code{\link{export_to_excel}}: Export data to Excel with formatting options
+#' }
+#'
+#' @section Visualization:
+#' \itemize{
+#'   \item \code{\link{theme_publication}}: Scientific publication theme for ggplot2
+#'   \item \code{\link{save_publication_plot}}: Save plots with publication quality
 #' }
 #'
 #' @section Development Tools:
