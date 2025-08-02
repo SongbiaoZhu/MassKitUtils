@@ -1,0 +1,60 @@
+url: https://songbiaozhu.github.io/MassKitUtils
+
+template:
+  params:
+    bootswatch: cosmo
+    toc: true
+    toc_float: true
+
+navbar:
+  structure:
+    left: ["intro", "reference", "news"]
+    right: ["github"]
+  components:
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/SongbiaoZhu/MassKitUtils
+
+reference:
+  - title: "Package Management"
+    desc: "Package installation and management functions"
+    contents:
+      - ensure_packages
+      - load_packages
+      - check_package_versions
+      - install_from_multiple_sources
+  - title: "Project Management"
+    desc: "Project creation and setup functions"
+    contents:
+      - init_r_project
+      - setup_analysis_structure
+      - create_dev_standards
+      - create_project_standards
+  - title: "File Management"
+    desc: "File and directory management functions"
+    contents:
+      - ensure_directory
+      - create_gitignore
+      - create_rbuildignore
+  - title: "Data Export"
+    desc: "Data export and formatting functions"
+    contents:
+      - export_to_excel
+      - add_summary_sheet
+      - apply_header_style
+      - apply_table_style
+  - title: "Visualization"
+    desc: "Publication-ready visualization functions"
+    contents:
+      - theme_publication
+      - save_publication_plot
+
+articles:
+  - title: "Getting Started"
+    navbar: "Getting Started"
+    contents:
+      - getting-started
+
+news:
+  cran_dates: false
+  github_dates: false

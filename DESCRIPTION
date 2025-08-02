@@ -9,6 +9,7 @@ Description: A comprehensive utility package for R development and data export.
     Provides functions for package management, project creation, file management,
     and Excel export with formatting options. Supports multiple package sources
     (CRAN, Bioconductor) and standardized project structures.
+URL: https://songbiaozhu.github.io/MassKitUtils
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -14,7 +14,6 @@
 *Rcheck/
 
 # Documentation
-docs/
 vignettes/*.html
 vignettes/*.pdf
 
@@ -31,7 +30,8 @@ data/*.xlsx
 output/*.pdf
 output/*.png
 output/*.jpg
-output/*.xlsx
+# Keep demo files
+# output/*.xlsx
 
 # Temporary files
 *.tmp
@@ -51,4 +51,3 @@ desktop.ini
 
 # Package development
 pkgdown/
-docs/

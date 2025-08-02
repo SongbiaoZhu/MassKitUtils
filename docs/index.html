@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MassKitUtils - R Development and Data Export Utilities</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+        }
+        .feature-card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .code-block {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"><div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-tools me-2"></i>MassKitUtils
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+<li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#installation">Installation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#documentation">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/SongbiaoZhu/MassKitUtils">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+</div>
+        </div>
+    </nav><!-- Hero Section --><section class="hero-section"><div class="container text-center">
+            
+            <p class="lead mb-4">A comprehensive utility package for R development and data export</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="code-block text-start">
+                        <code>devtools::install_github("SongbiaoZhu/MassKitUtils")</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- Features Section --><section id="features" class="py-5"><div class="container">
+            <h2 class="text-center mb-5">Key Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-boxes fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Package Management</h5>
+                            <p class="card-text">Intelligent package installation and loading with support for multiple sources (CRAN, Bioconductor).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-folder-tree fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">Project Setup</h5>
+                            <p class="card-text">Standardized project structure creation with development standards and templates.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file-excel fa-3x text-warning mb-3"></i>
+                            <h5 class="card-title">Data Export</h5>
+                            <p class="card-text">Excel export with comprehensive formatting options and styling capabilities.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                            <h5 class="card-title">Visualization</h5>
+                            <p class="card-text">Publication-ready ggplot2 themes and high-quality plot saving functions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-code fa-3x text-danger mb-3"></i>
+                            <h5 class="card-title">Development Tools</h5>
+                            <p class="card-text">Standards generation, Git configuration, and development workflow automation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shield-alt fa-3x text-secondary mb-3"></i>
+                            <h5 class="card-title">Error Handling</h5>
+                            <p class="card-text">Comprehensive error handling and validation for robust package management.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- Installation Section --><section id="installation" class="py-5 bg-light"><div class="container">
+            <h2 class="text-center mb-5">Installation</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">From GitHub</h5>
+                            <div class="code-block">
+                                <code>devtools::install_github("SongbiaoZhu/MassKitUtils")</code>
+                            </div>
+                            <h5 class="card-title mt-4">Load the Package</h5>
+                            <div class="code-block">
+                                <code>library(MassKitUtils)</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- Documentation Section --><section id="documentation" class="py-5"><div class="container">
+            <h2 class="text-center mb-5">Documentation</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Function Reference</h5>
+                            <p class="card-text">Complete documentation for all functions with examples and usage guidelines.</p>
+                            <a href="reference/index.html" class="btn btn-primary">View Reference</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">News &amp; Updates</h5>
+                            <p class="card-text">Latest version updates, new features, and bug fixes.</p>
+                            <a href="news/index.html" class="btn btn-primary">View News</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- Footer --><footer class="bg-dark text-white py-4"><div class="container text-center">
+            <p>© 2024 MassKitUtils. Developed by Songbiao Zhu.</p>
+            <p>
+                <a href="https://github.com/SongbiaoZhu/MassKitUtils" class="text-white me-3">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="mailto:zhusongbiao@cimrbj.ac.cn" class="text-white">
+                    <i class="fas fa-envelope"></i> Contact
+                </a>
+            </p>
+        </div>
+    </footer><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+---
+title: "Getting Started with MassKitUtils"
+author: "Songbiao Zhu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with MassKitUtils}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Getting Started with MassKitUtils
+
+MassKitUtils is a comprehensive utility package for R development and data export. This guide will help you get started with the package.
+
+## Installation
+
+```{r eval=FALSE}
+# Install from GitHub
+devtools::install_github("SongbiaoZhu/MassKitUtils")
+
+# Load the package
+library(MassKitUtils)
+```
+
+## Quick Start
+
+### 1. Package Management
+
+Ensure required packages are installed:
+
+```{r}
+# Load the package first
+library(MassKitUtils)
+
+# Install and load packages
+ensure_packages(c("dplyr", "ggplot2"))
+load_packages(c("dplyr", "ggplot2"))
+
+# Check package versions
+check_package_versions(c("dplyr", "ggplot2"))
+```
+
+### 2. Project Setup
+
+Create a new R project with standard structure:
+
+```{r eval=FALSE}
+# Initialize a new R project
+init_r_project()
+
+# Or create directory structure in current directory
+setup_analysis_structure()
+```
+
+### 3. Data Export
+
+Export data to Excel with formatting:
+
+```{r}
+# Create sample data
+data <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 35),
+  Score = c(85, 92, 78)
+)
+
+# Export to Excel
+export_to_excel(data, "sample_data.xlsx", 
+                header_style = "colored", 
+                table_style = "striped")
+```
+
+### 4. Visualization
+
+Create publication-ready plots:
+
+```{r eval=FALSE}
+library(ggplot2)
+
+# Create a plot with publication theme
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point() +
+  labs(title = "Publication Quality Plot") +
+  theme_publication()
+
+# Save with publication quality
+save_publication_plot(p, "my_plot.png", 
+                     target_width = 8, target_height = 6)
+```
+
+## Key Features
+
+- **Package Management**: Intelligent package installation and loading
+- **Project Setup**: Standardized project structure creation
+- **Data Export**: Excel export with formatting options
+- **Visualization**: Publication-ready ggplot2 themes
+- **Development Tools**: Standards and templates generation
+
+## Next Steps
+
+- Read the [function documentation](reference/index.html) for detailed usage
+- Check out the [tutorials](articles/tutorials.html) for advanced examples
+- Visit the [GitHub repository](https://github.com/SongbiaoZhu/MassKitUtils) for the latest updates 
