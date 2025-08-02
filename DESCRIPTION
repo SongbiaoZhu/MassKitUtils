@@ -1,6 +1,6 @@
 Package: MassKitUtils
 Title: R Development and Data Export Utilities
-Version: 2.3.0
+Version: 2.3.1
 Authors@R: 
     person("Songbiao", "Zhu", , "zhusongbiao@cimrbj.ac.cn", role = c("aut", "cre"))
 Author: Songbiao Zhu [aut, cre]

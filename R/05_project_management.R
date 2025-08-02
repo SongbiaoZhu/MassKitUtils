@@ -304,9 +304,9 @@ init_r_project <- function(
     }
     
     tryCatch({
-      create_dev_standards(
+      create_project_standards(
         output_dir = standards_dir,
-        package_name = project_name,
+        project_name = project_name,
         overwrite = overwrite
       )
       standards_created <- TRUE

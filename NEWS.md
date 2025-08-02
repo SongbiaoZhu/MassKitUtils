@@ -1,3 +1,15 @@
+# MassKitUtils 2.3.1 - 修复项目初始化函数
+
+## 🐛 错误修复 (BUG FIXES)
+
+### 项目初始化函数修复
+- **修复 `init_r_project()` 函数**: 现在正确调用 `create_project_standards()` 而不是 `create_dev_standards()`
+  - 修复了函数调用错误，确保数据分析项目使用正确的规范文档
+  - 更新了参数名称，从 `package_name` 改为 `project_name`
+  - 确保项目初始化功能与数据分析项目规范保持一致
+
+---
+
 # MassKitUtils 2.3.0 - 数据分析项目规范功能
 
 ## 🎉 新功能 (NEW FEATURES)
